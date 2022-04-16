@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TransactionActivity</string>
+    <string name="floatbutton">floatbutton</string>
+    <string name="action_archive">Archive</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_edit">Edit</string>
+
+</resources>

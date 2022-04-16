@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:cardCornerRadius="20dp"
+            tools:context=".TransactionActivity">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                        <SearchView
+                            android:id="@+id/searchViewDialog"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:queryHint="Input nama barang"
+                            android:iconifiedByDefault="false"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="16dp"
+                            android:background="@drawable/searchview_backgound"
+                            android:queryBackground="@android:color/transparent"
+                            />
+                        <!--   <TextView
+                               android:text="Barang yang di beli"
+                               android:textStyle="bold"
+                               android:textSize="19sp"
+                               android:textColor="@color/white"
+                               android:background="@color/purple_500"
+                               android:padding="10dp"
+                               android:elevation="15dp"
+                               android:layout_gravity="center"
+                               android:gravity="center"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"/>-->
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/barangListTx"
+                            android:layout_width="match_parent"
+                            android:layout_height="338dp"
+                            android:gravity="center"
+                            tools:listitem="@layout/barang_itemtx" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/closeInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Close" />
+
+
+        </LinearLayout>
+</layout>

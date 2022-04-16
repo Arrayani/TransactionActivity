@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp"
+    android:id="@+id/card_view_allincart">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="148dp"
+        android:layout_marginVertical="6dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/merkMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Merk: "
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="1dp" />
+
+        <TextView
+            android:id="@+id/tvmerkMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:text="ini merk"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/merkMoney"
+            app:layout_constraintTop_toTopOf="parent"
+
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/namabrgMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="46"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Nama Barang: "
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/merkMoney"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="24dp" />
+
+        <TextView
+            android:id="@+id/tvnamabarangMoneyTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:text="Stark Stark Star Stark"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            app:layout_constraintStart_toEndOf="@+id/namabrgMoney"
+            app:layout_constraintTop_toBottomOf="@+id/merkMoney" />
+
+        <TextView
+            android:id="@+id/varianMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="Varian: "
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/namabrgMoney"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <TextView
+            android:id="@+id/tvvarianMoneyTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="warna coklat warna coklat"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            app:layout_constraintStart_toEndOf="@+id/varianMoney"
+            app:layout_constraintTop_toBottomOf="@+id/namabrgMoney"
+            tools:layout_editor_absoluteX="60dp"
+            tools:layout_editor_absoluteY="48dp" />
+
+        <TextView
+            android:id="@+id/jualMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Harga Jual: "
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/varianMoney"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="72dp" />
+
+        <TextView
+            android:id="@+id/rpMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp."
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            app:layout_constraintStart_toEndOf="@+id/jualMoney"
+            app:layout_constraintTop_toBottomOf="@+id/varianMoney"
+            tools:layout_editor_absoluteX="99dp"
+            tools:layout_editor_absoluteY="72dp" />
+
+        <!--            android:background="@color/white"-->
+
+        <TextView
+            android:id="@+id/tvhargajualMoneyTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:text="15.000.000"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/rpMoney"
+            app:layout_constraintTop_toBottomOf="@id/tvvarianMoneyTx" />
+
+        <TextView
+            android:id="@+id/qtyMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="Qty: "
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvhargajualMoneyTx"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="96dp" />
+
+        <!--            android:background="@color/white"-->
+        <TextView
+            android:id="@+id/tvQtyMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:inputType="number"
+            android:text="5000"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/qtyMoney"
+            app:layout_constraintTop_toBottomOf="@id/jualMoney" />
+
+        <TextView
+            android:id="@+id/tvunitMoneyTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Satuan"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            app:layout_constraintStart_toEndOf="@+id/tvQtyMoney"
+            app:layout_constraintTop_toBottomOf="@+id/tvhargajualMoneyTx"
+            tools:layout_editor_absoluteX="86dp"
+            tools:layout_editor_absoluteY="96dp" />
+
+        <TextView
+            android:id="@+id/rpMoney2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:text="Rp."
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/totalMoneyTx"
+            app:layout_constraintStart_toEndOf="@+id/totalMoney" />
+
+        <TextView
+            android:id="@+id/totalMoneyTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="10000000"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/rpMoney2" />
+
+        <TextView
+            android:id="@+id/totalMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="150dp"
+            android:layout_marginEnd="1dp"
+            android:text="Total Harga : "
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rpMoney2"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/mMenus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_more_vert"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
