@@ -41,8 +41,10 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
     private lateinit var dialogBox: Dialog
     private lateinit var recyclerviewCart: RecyclerView // ini recview buat final cart
     private lateinit var btnClose: Button
+    private lateinit var discCheckBox: CheckBox
+    private lateinit var discountTv : EditText
 
-    private lateinit var totalBayar: TextView
+   // private lateinit var totalBayar: TextView
 
 
     // var searchView : SearchView? =null
@@ -352,12 +354,33 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 
         //  var totalBayar=findViewById<TextView>(R.id.totalBayar)
 
+        //potongan harga
+        discCheckBox = findViewById(R.id.checkBoxDisc)
+        //discountTv = findViewById(R.id.discountTv)
+        discountTv = findViewById(R.id.discountTv)
+        //discountTv.text = "Test input"
+        var tempdiskon :Int = 0
+        var tempdiskon2 ="0"
+        discCheckBox.setOnCheckedChangeListener {buttonView, isCheked ->
+            if(isCheked){
+                discountTv.isEnabled=true
+                //iscountTv.isFocused()
+               // discountTv.isPressed = true
+                Toast.makeText(this, "halo ini chek",Toast.LENGTH_SHORT).show()
+            }else{
+                //discountTv.text =" "
+                //discountTv.text = tempdiskon
+                //discountTv.text = tempdiskon2
+                discountTv.editableText.clear()
+                discountTv.isEnabled = false
+
+                //discountTv.text ="0"   // tempdiskon.toString().
+                discountTv.clearFocus()
+                Toast.makeText(this, "halo ini Unchek",Toast.LENGTH_SHORT).show()
+            }
+        }
 
     }
-
-///// swipe
-
-//// swipe
 
 
     private fun addInfo() {
