@@ -15,7 +15,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import android.widget.Toast.LENGTH_LONG
 import androidx.core.content.ContextCompat
+import androidx.core.text.set
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -356,31 +358,52 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 
         //potongan harga
         discCheckBox = findViewById(R.id.checkBoxDisc)
-        //discountTv = findViewById(R.id.discountTv)
         discountTv = findViewById(R.id.discountTv)
-        //discountTv.text = "Test input"
-        var tempdiskon :Int = 0
-        var tempdiskon2 ="0"
+
         discCheckBox.setOnCheckedChangeListener {buttonView, isCheked ->
             if(isCheked){
                 discountTv.isEnabled=true
-                //iscountTv.isFocused()
-               // discountTv.isPressed = true
+                discountTv.text.append("1000")
+                discountTv.setSelectAllOnFocus(true)
                 Toast.makeText(this, "halo ini chek",Toast.LENGTH_SHORT).show()
             }else{
-                //discountTv.text =" "
-                //discountTv.text = tempdiskon
-                //discountTv.text = tempdiskon2
                 discountTv.editableText.clear()
                 discountTv.isEnabled = false
-
                 //discountTv.text ="0"   // tempdiskon.toString().
-                discountTv.clearFocus()
+                //discountTv.clearFocus()
                 Toast.makeText(this, "halo ini Unchek",Toast.LENGTH_SHORT).show()
             }
         }
-
+        //ini buat menghapus transaksi
+        val delTranx =findViewById<Button>(R.id.hapusTranx)
+        delTranx.setOnClickListener(){
+            deleteTranx()
+        }
+        //ini buat menyimpan transaksi
+        val saveTranx = findViewById<Button>(R.id.saveTranx)
+        saveTranx.setOnClickListener(){
+            simpanTranx()
+        }
+        //ini batas akhir on create
     }
+
+    private fun simpanTranx() {
+        TODO("Not yet implemented")
+    }
+
+    private fun deleteTranx(){
+        allInCart.clear()
+        cartAdapter.notifyDataSetChanged()
+//kalo info dari web android developer, snackbar lebih sering digunakan di banding toast
+//untuk menggunakan snackbar, berikan nama di root layout
+        Snackbar.make(
+            findViewById(R.id.rootTransactionActivity),
+            "Berhasil menghapus Transaksi",
+            Snackbar.LENGTH_SHORT
+        ).show()
+    //setActionTextColor(ContextCompat.getColor(this,R.color.accent)). ini untuk kasih warna di snackbar
+    }
+
 
 
     private fun addInfo() {
