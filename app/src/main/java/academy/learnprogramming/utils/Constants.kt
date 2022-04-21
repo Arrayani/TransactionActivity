@@ -11,6 +11,7 @@ object Constants {
     const val STOK: String="stok"
     const val UNIT: String="unit"
     const val KEYNODE :String="brgId"
+    const val SALESORDER:String="SalesOrder"
 
 }
 

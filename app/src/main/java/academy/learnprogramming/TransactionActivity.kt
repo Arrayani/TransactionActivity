@@ -2,9 +2,11 @@ package academy.learnprogramming
 
 
 //import academy.learnprogramming.databinding.ActivityPushItemtxBinding
+import academy.learnprogramming.utils.Constants.SALESORDER
 import academy.learnprogramming.models.Barang
 import academy.learnprogramming.models.BarangCart
 import academy.learnprogramming.utils.CartAdapter
+import academy.learnprogramming.utils.Constants.TABELBARANG
 import academy.learnprogramming.utils.InputAdapter
 import android.app.Dialog
 import android.content.Context
@@ -44,9 +46,10 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
     private lateinit var recyclerviewCart: RecyclerView // ini recview buat final cart
     private lateinit var btnClose: Button
     private lateinit var discCheckBox: CheckBox
-    private lateinit var discountTv : EditText
+    private lateinit var discountTv: EditText
+    private lateinit var database: DatabaseReference
 
-   // private lateinit var totalBayar: TextView
+    // private lateinit var totalBayar: TextView
 
 
     // var searchView : SearchView? =null
@@ -122,7 +125,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                     //snackbar.setBackgroundTint(Color.BLACK)
                     snackbar.show()
 
-                }else{
+                } else {
                     //TODO : edit modul
                     //val deletedItem = allInCart.get(position)
                     val editedItem = allInCart.get(position)
@@ -132,21 +135,28 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                     dialogBox.setContentView(R.layout.single_itemtx)
                     dialogBox.setCanceledOnTouchOutside(true)
                     //jika di cancel maka di kembalikan kembali datanya,
-                    dialogBox.setOnCancelListener{
-                             cartAdapter.restoreItem(editedItem,position)
-                             updateAllinCartRecview()
-                              }
+                    dialogBox.setOnCancelListener {
+                        cartAdapter.restoreItem(editedItem, position)
+                        updateAllinCartRecview()
+                    }
 
                     dialogBox.findViewById<TextView>(R.id.tvmerkSingleTx).text = editedItem.merk
-                    dialogBox.findViewById<TextView>(R.id.tvnamabarangSingleTx).text =editedItem.namaBrg
-                    dialogBox.findViewById<TextView>(R.id.tvvarianSingleTx).text = editedItem.varian//("${barang.varian}")
-                    dialogBox.findViewById<TextView>(R.id.tvstokSingleTx).text = editedItem.stok//("${barang.stok}")
-                    dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text =editedItem.hargaJual
+                    dialogBox.findViewById<TextView>(R.id.tvnamabarangSingleTx).text =
+                        editedItem.namaBrg
+                    dialogBox.findViewById<TextView>(R.id.tvvarianSingleTx).text =
+                        editedItem.varian//("${barang.varian}")
+                    dialogBox.findViewById<TextView>(R.id.tvstokSingleTx).text =
+                        editedItem.stok//("${barang.stok}")
+                    dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text =
+                        editedItem.hargaJual
                     dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = editedItem.qty//"1"
-                    dialogBox.findViewById<TextView>(R.id.tvunitSingleTx).text = editedItem.unit//("${barang.unit}")
-                    val total = editedItem.qty?.toInt()  // ini gw ga tau kenapa otomatis dari intellij, utk mendapat nilai total
-                        ?.let { editedItem.hargaJual?.toInt()?.times(it) }
-                    dialogBox.findViewById<TextView>(R.id.totalSingleTx).text =total.toString()//("${barang.hargaJual}")
+                    dialogBox.findViewById<TextView>(R.id.tvunitSingleTx).text =
+                        editedItem.unit//("${barang.unit}")
+                    val total =
+                        editedItem.qty?.toInt()  // ini gw ga tau kenapa otomatis dari intellij, utk mendapat nilai total
+                            ?.let { editedItem.hargaJual?.toInt()?.times(it) }
+                    dialogBox.findViewById<TextView>(R.id.totalSingleTx).text =
+                        total.toString()//("${barang.hargaJual}")
                     dialogBox.show()
                     //** mulai filter validasi item yg di edit
                     val jumlahBeliChange = dialogBox.findViewById<TextView>(R.id.tvQtyBeli)
@@ -155,61 +165,78 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                     hargaJualChange.setOnFocusChangeListener { _, focused ->
                         if (focused) {
                             hargaJualChange.setSelectAllOnFocus(true)
-                        }else if (!focused) {
-                            if(hargaJualChange.text.toString().toInt()<= editedItem.hargaModal!!.toInt() ){
-                                Toast.makeText(this@TransactionActivity, "Harga Jual Wajib di atas harga modal", Toast.LENGTH_SHORT)
+                        } else if (!focused) {
+                            if (hargaJualChange.text.toString()
+                                    .toInt() <= editedItem.hargaModal!!.toInt()
+                            ) {
+                                Toast.makeText(
+                                    this@TransactionActivity,
+                                    "Harga Jual Wajib di atas harga modal",
+                                    Toast.LENGTH_SHORT
+                                )
                                     .show()
                                 hargaJualChange.text = editedItem.hargaJual
                                 return@setOnFocusChangeListener
-                                 }
-                              }
-                         }
+                            }
+                        }
+                    }
                     hargaJualChange.addTextChangedListener {
                         if (hargaJualChange.text.toString().isEmpty()) {
                             hargaJualChange.text = editedItem.hargaJual
-                            Toast.makeText(this@TransactionActivity, "Harga Jual Wajib di atas harga modal", Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                this@TransactionActivity,
+                                "Harga Jual Wajib di atas harga modal",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                             return@addTextChangedListener
-                              }
-                         }
+                        }
+                    }
 //ini untuk memfilter jika angka yg di masukan di awal angka 0
                     hargaJualChange.doAfterTextChanged {
                         if (hargaJualChange.text.toString().startsWith("0")) {
                             hargaJualChange.text = editedItem.hargaJual
-                            Toast.makeText(this@TransactionActivity, "Harga Jual Wajib di atas harga modal", Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                this@TransactionActivity,
+                                "Harga Jual Wajib di atas harga modal",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                             return@doAfterTextChanged
                         }
                         //ini membuat perubahan di harga jual menjadi responsif di bagian total harga
                         else {
-                            x = (jumlahBeliChange.text.toString().toInt()) * (hargaJualChange.text.toString()
+                            x = (jumlahBeliChange.text.toString()
+                                .toInt()) * (hargaJualChange.text.toString()
                                 .toInt())
                             dialogBox.findViewById<TextView>(R.id.totalSingleTx).text = x.toString()
-                            }
-                     }
+                        }
+                    }
                     //kalo di layout ini buat Qty  pembelian
                     jumlahBeliChange.addTextChangedListener {
                         if (jumlahBeliChange.text.toString().isEmpty()) {
                             jumlahBeliChange.text = editedItem.qty
                         } else {
-                            x = (jumlahBeliChange.text.toString().toInt()) * (hargaJualChange.text.toString()
+                            x = (jumlahBeliChange.text.toString()
+                                .toInt()) * (hargaJualChange.text.toString()
                                 .toInt())
                             dialogBox.findViewById<TextView>(R.id.totalSingleTx).text = x.toString()
-                            }
                         }
+                    }
                     //ini pake startwith, jika angka pertama itu angka 0, otomatis ganti ke angka 1
                     jumlahBeliChange.doAfterTextChanged {
                         if (jumlahBeliChange.text.toString().startsWith("0")) {
                             jumlahBeliChange.text = editedItem.qty
-                            }
-                     }
+                        }
+                    }
                     //clicklistener menambah jumlah qty beli
                     val qtybuttonPlus = dialogBox.findViewById<Button>(R.id.addButtonBeli)
                     qtybuttonPlus.setOnClickListener {
-                        var qty = dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString().toInt()
+                        var qty =
+                            dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString().toInt()
                         qty++
                         dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = qty.toString()
-                      }
+                    }
                     //clicklistener mengurangi jumlah qty beli
                     val qtyButtonMinus = dialogBox.findViewById<Button>(R.id.minButtonBeli)
                     var y: Int
@@ -221,7 +248,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                             y--
                             dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = y.toString()
                         }
-                     }
+                    }
                     /** submit proses */
                     //submit proses
                     val btnSubmit = dialogBox.findViewById<Button>(R.id.submit_input_single)
@@ -230,10 +257,17 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                             dialogBox.findViewById<TextView>(R.id.totalSingleTx).text.toString()
                         val scanHargaJual =
                             dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text.toString()
-                        val scanQty = dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString()
+                        val scanQty =
+                            dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString()
                         //jika harga jual di edit tapi kurang/ sama dengan harga modal
-                        if (hargaJualChange.text.toString().toInt() <= editedItem.hargaModal!!.toInt()) {
-                            Toast.makeText(this@TransactionActivity, "Harga Jual Wajib di atas harga modal", Toast.LENGTH_SHORT)
+                        if (hargaJualChange.text.toString()
+                                .toInt() <= editedItem.hargaModal!!.toInt()
+                        ) {
+                            Toast.makeText(
+                                this@TransactionActivity,
+                                "Harga Jual Wajib di atas harga modal",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                             dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text =
                                 editedItem.hargaJual
@@ -250,14 +284,14 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
-                           var temp=
-                               BarangCart(
-                                   editedItem.merk,editedItem.namaBrg,
-                                   editedItem.varian,editedItem.hargaModal,scanHargaJual,
-                                   editedItem.stok,editedItem.unit,editedItem.brgId,
-                                   scanQty,totalbelitx
-                               )
-                            cartAdapter.revised(temp,position)
+                            var temp =
+                                BarangCart(
+                                    editedItem.merk, editedItem.namaBrg,
+                                    editedItem.varian, editedItem.hargaModal, scanHargaJual,
+                                    editedItem.stok, editedItem.unit, editedItem.brgId,
+                                    scanQty, totalbelitx
+                                )
+                            cartAdapter.revised(temp, position)
 
                             //println("uraa"+temp)
                             updateAllinCartRecview()
@@ -266,10 +300,10 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                             //println(BarangCart.)
                             dialogBox.dismiss()
 
-            //                btnClose.visibility = View.VISIBLE
-            //                btnClose.setOnClickListener {
-            //                    this.dialogBox.dismiss()
-            //                }
+                            //                btnClose.visibility = View.VISIBLE
+                            //                btnClose.setOnClickListener {
+                            //                    this.dialogBox.dismiss()
+                            //                }
                         }
                     }
                     /** submit proses  end*/
@@ -280,7 +314,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                     }
 
                 }
-            /**** *88888888* ***/
+                /**** *88888888* ***/
             }
 
             // You must use @RecyclerViewSwipeDecorator inside the onChildDraw method
@@ -360,38 +394,81 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         discCheckBox = findViewById(R.id.checkBoxDisc)
         discountTv = findViewById(R.id.discountTv)
 
-        discCheckBox.setOnCheckedChangeListener {buttonView, isCheked ->
-            if(isCheked){
-                discountTv.isEnabled=true
+        discCheckBox.setOnCheckedChangeListener { buttonView, isCheked ->
+            if (isCheked) {
+                discountTv.isEnabled = true
                 discountTv.text.append("1000")
                 discountTv.setSelectAllOnFocus(true)
-                Toast.makeText(this, "halo ini chek",Toast.LENGTH_SHORT).show()
-            }else{
+                Toast.makeText(this, "halo ini chek", Toast.LENGTH_SHORT).show()
+            } else {
                 discountTv.editableText.clear()
                 discountTv.isEnabled = false
                 //discountTv.text ="0"   // tempdiskon.toString().
                 //discountTv.clearFocus()
-                Toast.makeText(this, "halo ini Unchek",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "halo ini Unchek", Toast.LENGTH_SHORT).show()
             }
         }
         //ini buat menghapus transaksi
-        val delTranx =findViewById<Button>(R.id.hapusTranx)
-        delTranx.setOnClickListener(){
+        val delTranx = findViewById<Button>(R.id.hapusTranx)
+        delTranx.setOnClickListener() {
             deleteTranx()
         }
         //ini buat menyimpan transaksi
         val saveTranx = findViewById<Button>(R.id.saveTranx)
-        saveTranx.setOnClickListener(){
+        saveTranx.setOnClickListener() {
             simpanTranx()
         }
         //ini batas akhir on create
     }
 
+    //salesOrder send
     private fun simpanTranx() {
-        TODO("Not yet implemented")
+        if (allInCart.isNotEmpty()) {
+            database = FirebaseDatabase.getInstance().getReference(SALESORDER)
+            val key = database.child(SALESORDER).push().key
+            for (pointer in allInCart.indices) {
+                val terjual = BarangCart(
+                    allInCart[pointer].merk,
+                    allInCart[pointer].namaBrg,
+                    allInCart[pointer].varian,
+                    allInCart[pointer].hargaModal,
+                    allInCart[pointer].hargaJual,
+                    allInCart[pointer].stok,
+                    allInCart[pointer].unit,
+                    allInCart[pointer].brgId,
+                    allInCart[pointer].qty,
+                    allInCart[pointer].total
+                )
+                allInCart[pointer].brgId?.let {
+                    database.child(key!!).child(it).setValue(terjual).addOnSuccessListener {
+                        Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+                    }.addOnFailureListener {
+
+                        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } //akhir for loop
+
+//                val terjual = BarangCart(allInCart[0].merk,allInCart[0].namaBrg,allInCart[0].varian,
+//                    allInCart[0].hargaModal,allInCart[0].hargaJual,allInCart[0].stok,allInCart[0].unit,
+//                    allInCart[0].brgId,allInCart[0].qty,allInCart[0].total)
+//            //database.child(key!!).setValue(terjual).addOnSuccessListener{
+//                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+//            }.addOnFailureListener {
+//
+//                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+//            }
+
+        } else {
+            Snackbar.make(
+                findViewById(R.id.rootTransactionActivity),
+                "Tidak ada transaksi untuk disimpan",
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
     }
 
-    private fun deleteTranx(){
+    private fun deleteTranx() {
         allInCart.clear()
         cartAdapter.notifyDataSetChanged()
 //kalo info dari web android developer, snackbar lebih sering digunakan di banding toast
@@ -401,9 +478,8 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
             "Berhasil menghapus Transaksi",
             Snackbar.LENGTH_SHORT
         ).show()
-    //setActionTextColor(ContextCompat.getColor(this,R.color.accent)). ini untuk kasih warna di snackbar
+        //setActionTextColor(ContextCompat.getColor(this,R.color.accent)). ini untuk kasih warna di snackbar
     }
-
 
 
     private fun addInfo() {
@@ -443,7 +519,8 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 
 
     private fun getBarangData() {
-        dbref = FirebaseDatabase.getInstance().getReference("TblBarang")
+        //dbref = FirebaseDatabase.getInstance().getReference("TblBarang")
+        dbref = FirebaseDatabase.getInstance().getReference(TABELBARANG)
 
         dbref.addValueEventListener(object : ValueEventListener {
 
