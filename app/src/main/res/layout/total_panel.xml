@@ -4,86 +4,82 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="210dp"
+    android:layout_height="wrap_content"
     app:cardElevation="8dp"
     app:cardCornerRadius="18dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
-    android:layout_marginLeft="1dp"
-    android:layout_marginRight="1dp"
-
     android:id="@+id/panel_total">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
-        android:layout_height="210dp"
+        android:layout_height="176dp"
         android:background="@color/colorLightGray"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/textView">
+
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="212dp"
-            android:layout_marginTop="156dp"
+            android:layout_marginTop="128dp"
+            android:layout_marginEnd="8dp"
             android:text="Total Rp. "
-            app:layout_constraintStart_toStartOf="parent"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/totalBayar"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="288dp"
             android:layout_marginTop="32dp"
+            android:layout_marginEnd="36dp"
             android:numeric="decimal"
             android:text="xx.xxx.xxx"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="244dp"
             android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
             android:text="PPN"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/totalBayar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="288dp"
-            android:layout_marginTop="156dp"
+            android:layout_marginTop="128dp"
+            android:layout_marginEnd="32dp"
             android:numeric="decimal"
             android:text="xx.xxx.xxx"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="168dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="76dp"
+            android:layout_marginEnd="8dp"
             android:text="Biaya tambahan"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView6"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="288dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="76dp"
+            android:layout_marginEnd="36dp"
             android:numeric="decimal"
             android:text="xx.xxx.xxx"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -94,32 +90,11 @@
             app:layout_constraintGuide_begin="168dp" />
 
         <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="Cashier ID"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="56dp"
-            android:numeric="decimal"
-            android:text="Rose Medical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="32dp"
             android:text="Nama Customer"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -129,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="104dp"
+            android:layout_marginTop="64dp"
             android:numeric="decimal"
             android:text="xx.xxx.xxx"
             app:layout_constraintStart_toStartOf="parent"
@@ -140,8 +115,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="132dp"
-            android:text="Metode Pembayaran"
+            android:layout_marginTop="96dp"
+            android:text="Payment"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -150,44 +125,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="156dp"
+            android:layout_marginTop="128dp"
             android:numeric="decimal"
             android:text="Cash/Transfer/KK"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="180dp"
-            android:layout_marginTop="96dp"
-            android:text="Potongan Rp. "
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/discountTv"
-            android:layout_width="71dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="288dp"
-            android:layout_marginTop="92dp"
-            android:enabled="false"
-            android:inputType="number"
-            android:maxLength="10"
-            android:textSize="14dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <CheckBox
-            android:id="@+id/checkBoxDisc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="212dp"
-            android:layout_marginBottom="80dp"
-            android:checked="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

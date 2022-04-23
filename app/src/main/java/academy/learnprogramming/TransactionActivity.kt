@@ -81,14 +81,63 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         recyclerviewCart = findViewById(R.id.cartRecview)
         recyclerviewCart.layoutManager = LinearLayoutManager(this)
         recyclerviewCart.adapter = cartAdapter
-
-        ////swipe it
         recyclerviewCart.addItemDecoration(
             DividerItemDecoration(
                 this,
                 LinearLayoutManager.VERTICAL
             )
         )
+        ////swipe it
+        swipeKiKa()
+///////////////////////////////////////////////////////////////////////////////
+
+        addsBtn = findViewById(R.id.addingBtn) // floating button
+
+        addsBtn.setOnClickListener { addInfo() }
+
+        //inputAdapter = inputAdapter(this@TransactionActivity)
+        //inputAdapter!!.setData(barangArrayList)
+        //recyclerview= findViewById(R.id.barangListTx)
+        //recyclerview.layoutManager= LinearLayoutManager(this)
+        //recyclerview.setHasFixedSize(true)
+        //barangArrayList = arrayListOf<Barang>()
+        //getBarangData()
+
+
+        //  var totalBayar=findViewById<TextView>(R.id.totalBayar)
+
+        //potongan harga
+        /*discCheckBox = findViewById(R.id.checkBoxDisc)
+        discountTv = findViewById(R.id.discountTv)
+
+        discCheckBox.setOnCheckedChangeListener { buttonView, isCheked ->
+            if (isCheked) {
+                discountTv.isEnabled = true
+                discountTv.text.append("1000")
+                discountTv.setSelectAllOnFocus(true)
+                Toast.makeText(this, "halo ini chek", Toast.LENGTH_SHORT).show()
+            } else {
+                discountTv.editableText.clear()
+                discountTv.isEnabled = false
+                //discountTv.text ="0"   // tempdiskon.toString().
+                //discountTv.clearFocus()
+                Toast.makeText(this, "halo ini Unchek", Toast.LENGTH_SHORT).show()
+            }
+        }*/
+        //ini buat menghapus transaksi
+        val delTranx = findViewById<Button>(R.id.hapusTranx)
+        delTranx.setOnClickListener() {
+            deleteTranx()
+        }
+        //ini buat menyimpan transaksi
+        val saveTranx = findViewById<Button>(R.id.saveTranx)
+        saveTranx.setOnClickListener() {
+            simpanTranx()
+        }
+        //ini batas akhir on create
+    }
+
+    private fun swipeKiKa() {
 
         val callback: ItemTouchHelper.SimpleCallback = object :
             ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT) {
@@ -372,53 +421,6 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         }
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(recyclerviewCart)
-
-///////////////////////////////////////////////////////////////////////////////
-
-        addsBtn = findViewById(R.id.addingBtn) // floating button
-
-        addsBtn.setOnClickListener { addInfo() }
-
-        //inputAdapter = inputAdapter(this@TransactionActivity)
-        //inputAdapter!!.setData(barangArrayList)
-        //recyclerview= findViewById(R.id.barangListTx)
-        //recyclerview.layoutManager= LinearLayoutManager(this)
-        //recyclerview.setHasFixedSize(true)
-        //barangArrayList = arrayListOf<Barang>()
-        //getBarangData()
-
-
-        //  var totalBayar=findViewById<TextView>(R.id.totalBayar)
-
-        //potongan harga
-        discCheckBox = findViewById(R.id.checkBoxDisc)
-        discountTv = findViewById(R.id.discountTv)
-
-        discCheckBox.setOnCheckedChangeListener { buttonView, isCheked ->
-            if (isCheked) {
-                discountTv.isEnabled = true
-                discountTv.text.append("1000")
-                discountTv.setSelectAllOnFocus(true)
-                Toast.makeText(this, "halo ini chek", Toast.LENGTH_SHORT).show()
-            } else {
-                discountTv.editableText.clear()
-                discountTv.isEnabled = false
-                //discountTv.text ="0"   // tempdiskon.toString().
-                //discountTv.clearFocus()
-                Toast.makeText(this, "halo ini Unchek", Toast.LENGTH_SHORT).show()
-            }
-        }
-        //ini buat menghapus transaksi
-        val delTranx = findViewById<Button>(R.id.hapusTranx)
-        delTranx.setOnClickListener() {
-            deleteTranx()
-        }
-        //ini buat menyimpan transaksi
-        val saveTranx = findViewById<Button>(R.id.saveTranx)
-        saveTranx.setOnClickListener() {
-            simpanTranx()
-        }
-        //ini batas akhir on create
     }
 
     //salesOrder send
