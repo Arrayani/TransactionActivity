@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import java.text.DecimalFormat
 
 
 //class inputAdapter: RecyclerView.Adapter<inputAdapter.MyViewHolder>() {
@@ -41,9 +42,15 @@ class InputAdapter(val context: Context,var clickListener: TransactionActivity):
         holder.merk.text = currentitem.merk
         holder.namaBarang.text=currentitem.namaBrg
         holder.varian.text=currentitem.varian
-        holder.hargaJual.text=currentitem.hargaJual
+//        holder.hargaJual.text=currentitem.hargaJual
+        val oriHjual = currentitem.hargaJual.toString()
+        val convertHjual = ValidNumber().deciformat(oriHjual)
+        holder.hargaJual.text=convertHjual
         // holder.hargaModal.text=currentitem.hargaModal
-        holder.stok.text=currentitem.stok
+        val oriStok = currentitem.stok.toString()
+        val convertStok = ValidNumber().deciformat(oriStok)
+        holder.stok.text=convertStok
+
         holder.munit.text=currentitem.unit
 
         // Updating the background color according to the odd/even positions in list.
@@ -81,7 +88,12 @@ class InputAdapter(val context: Context,var clickListener: TransactionActivity):
         fun ClickedItem(barang:Barang)
     }
 
-
+    fun deciformat(terimaString:String):String {
+        val konversiLong = terimaString.toLong()
+        val dcFormat = DecimalFormat("#,###")
+        val hasiDeci = dcFormat.format(konversiLong).toString().replace(',','.')
+        return hasiDeci
+    }
 
 }
 

@@ -1,143 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="375dp"
-    android:layout_height="305dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="330dp"
     app:cardElevation="8dp"
     app:cardCornerRadius="8dp"
-    android:layout_marginStart="5dp"
     android:layout_gravity="center"
     android:orientation="vertical"
     app:cardBackgroundColor="@color/colorLightGray"
     android:id="@+id/card_single_tx">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginVertical="6dp"
-        android:layout_marginStart="16dp"
+        android:layout_margin="10dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/noEditMerk"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="1dp"
             android:text="Merk:"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvmerkSingleTx"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="1dp"
             android:text="ini merk"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/noEditMerk"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="12dp"
             android:text="Nama Barang: "
             android:textColor="@color/black"
             android:textSize="@dimen/tx_size_font"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvmerkSingleTx" />
 
         <TextView
             android:id="@+id/tvnamabarangSingleTx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="120dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="36dp"
             android:text="Stark Stark Star Stark"
             android:textColor="@color/black"
-            android:textSize="@dimen/tx_size_font" />
+            android:textSize="@dimen/tx_size_font"
+            app:layout_constraintStart_toEndOf="@+id/textView4"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/textView16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="12dp"
             android:text="Varian: "
             android:textColor="@color/black"
             android:textSize="@dimen/tx_size_font"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvvarianSingleTx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="65dp"
-            android:layout_marginTop="60dp"
-            android:text="warna coklat warna coklat"
-            android:textColor="@color/black"
-            android:textSize="@dimen/tx_size_font" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
-            android:text="Stok : "
-            android:textColor="@color/black"
-            android:textSize="@dimen/tx_size_font"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvstokSingleTx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="55dp"
-            android:layout_marginTop="90dp"
-            android:text="100"
-            android:textColor="@color/black"
-            android:textSize="@dimen/tx_size_font" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
-            android:text="Harga Jual: "
-            android:textColor="@color/black"
-            android:textSize="@dimen/tx_size_font"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="120dp"
-            android:text="Rp."
-            android:textColor="@color/black"
-            android:textSize="@dimen/tx_size_font" />
-
-        <EditText
-            android:id="@+id/tvhargajualSingleTx"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="130dp"
-            android:layout_marginTop="120dp"
-            android:background="@color/white"
-            android:inputType="number"
-            android:lines="1"
-            android:maxLength="10"
-            android:selectAllOnFocus="true"
-            android:text="15.000.000"
-            android:textColor="@color/black"
-            android:textSize="@dimen/tx_size_font" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <!--        <Button-->
         <!--            android:id="@+id/editHarga"-->
@@ -149,27 +89,103 @@
         <!--            android:text="Edit" />-->
 
         <TextView
+            android:id="@+id/tvvarianSingleTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="12dp"
+            android:text="warna coklat warna coklat"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            app:layout_constraintStart_toEndOf="@+id/textView16"
+            app:layout_constraintTop_toBottomOf="@+id/tvnamabarangSingleTx" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Stok : "
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+        <TextView
+            android:id="@+id/tvstokSingleTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:text="100"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            app:layout_constraintStart_toEndOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/tvvarianSingleTx" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="140dp"
+            android:text="Harga Jual: "
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="140dp"
+            android:text="Rp."
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView8" />
+
+        <EditText
+            android:id="@+id/tvhargajualSingleTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="120dp"
+            android:layout_marginBottom="140dp"
+            android:width="85dp"
+            android:background="@color/white"
+            android:inputType="number"
+            android:lines="1"
+            android:maxLength="10"
+            android:selectAllOnFocus="true"
+            android:text="15.000.000"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/textView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="160dp"
-            android:layout_marginBottom="101dp"
+            android:layout_marginBottom="108dp"
             android:text="Qty: "
             android:textColor="@color/black"
             android:textSize="@dimen/tx_size_font"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/tvQtyBeli"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="160dp"
-            android:layout_marginBottom="101dp"
+            android:layout_marginBottom="108dp"
+            android:width="40dp"
             android:background="@color/white"
             android:inputType="number"
             android:lines="1"
@@ -177,94 +193,24 @@
             android:selectAllOnFocus="true"
             android:text="5000"
             android:textColor="@color/black"
-            android:textSize="@dimen/tx_size_font" />
+            android:textSize="@dimen/tx_size_font"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView14" />
 
         <TextView
             android:id="@+id/tvunitSingleTx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="95dp"
-            android:layout_marginTop="160dp"
-            android:layout_marginBottom="101dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="108dp"
             android:text="Satuan"
             android:textColor="@color/black"
-            android:textSize="@dimen/tx_size_font" />
-
-        <Button
-            android:id="@+id/minButtonBeli"
-            style="@style/mybutton"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="170dp"
-            android:layout_marginLeft="@dimen/tx_size_font"
-            android:layout_marginTop="150dp"
-            android:layout_marginBottom="90dp"
-            android:text="-" />
-
-        <Button
-            android:id="@+id/addButtonBeli"
-            style="@style/mybutton"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="34dp"
-            android:layout_marginLeft="@dimen/tx_size_font"
-            android:layout_marginTop="150dp"
-            android:layout_marginEnd="55dp"
-            android:layout_marginBottom="90dp"
-            android:layout_toEndOf="@+id/minButtonBeli"
-            android:text="+" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="210dp"
-            android:text="Total Harga : "
-            android:textColor="@color/black"
             android:textSize="@dimen/tx_size_font"
-            android:textStyle="bold" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvQtyBeli" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="110dp"
-            android:layout_marginTop="210dp"
-            android:text="Rp."
-            android:textColor="@color/black"
-            android:textSize="@dimen/tx_size_font" />
-
-        <TextView
-            android:id="@+id/totalSingleTx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="150dp"
-            android:layout_marginTop="210dp"
-            android:text="100000"
-            android:textColor="@color/black"
-            android:textSize="@dimen/tx_size_font" />
-
-        <Button
-            android:id="@+id/cancel_input_single"
-            style="@style/mybutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="240dp"
-            android:text="Cancel" />
-
-        <Button
-            android:id="@+id/submit_input_single"
-            style="@style/mybutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="200dp"
-            android:layout_marginTop="240dp"
-            android:text="Submit" />
-
-       <!-- <Button
+        <!-- <Button
             android:id="@+id/hargaSave"
             style="@style/mybutton"
             android:layout_width="wrap_content"
@@ -276,22 +222,91 @@
             android:text="save"
             android:visibility="invisible" />
 -->
+
+        <Button
+            android:id="@+id/minButtonBeli"
+            style="@style/mybutton"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="92dp"
+            android:text="-"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addButtonBeli" />
+
+        <Button
+            android:id="@+id/addButtonBeli"
+            style="@style/mybutton"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="28dp"
+            android:layout_marginBottom="92dp"
+            android:layout_toEndOf="@+id/minButtonBeli"
+            android:text="+"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <TextView
-            android:id="@+id/hintHargaJual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="127dp"
-            android:layout_marginEnd="21dp"
+            android:layout_marginBottom="60dp"
+            android:text="Total Harga : "
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
             android:textStyle="bold"
-            android:visibility="invisible"
-            android:text="Harga Jual>Harga Modal"
-            android:textColor="@color/purple_200"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView15"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            android:textSize="10dp" />
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="60dp"
+            android:text="Rp."
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/totalSingleTx" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/totalSingleTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="132dp"
+            android:layout_marginBottom="60dp"
+            android:text="100000"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_size_font"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/cancel_input_single"
+            style="@style/mybutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/submit_input_single"
+            style="@style/mybutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:text="Submit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.cardview.widget.CardView>

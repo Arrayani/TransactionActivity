@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import java.text.DecimalFormat
 
 class CartAdapter(val context: Context,val itemIncart:ArrayList<BarangCart>):
     RecyclerView.Adapter<CartAdapter.itemViewHolder>(){
@@ -66,6 +67,7 @@ class CartAdapter(val context: Context,val itemIncart:ArrayList<BarangCart>):
         holder.merk.text = currentitem.merk
         holder.namaBarang.text=currentitem.namaBrg
         holder.varian.text=currentitem.varian
+
         holder.hargaJual.text=currentitem.hargaJual
         holder.qty.text=currentitem.qty
         holder.unit.text=currentitem.unit
@@ -85,7 +87,12 @@ class CartAdapter(val context: Context,val itemIncart:ArrayList<BarangCart>):
         return itemIncart.size
     }
 
-
+    fun deciformat(terimaString:String):String {
+        val konversiLong = terimaString.toLong()
+        val dcFormat = DecimalFormat("#,###")
+        val hasiDeci = dcFormat.format(konversiLong).toString().replace(',','.')
+        return hasiDeci
+    }
 }
 
 
