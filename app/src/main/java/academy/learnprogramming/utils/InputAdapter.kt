@@ -86,6 +86,7 @@ class InputAdapter(val context: Context,var clickListener: TransactionActivity):
 
     interface ClickListener{
         fun ClickedItem(barang:Barang)
+
     }
 
     fun deciformat(terimaString:String):String {

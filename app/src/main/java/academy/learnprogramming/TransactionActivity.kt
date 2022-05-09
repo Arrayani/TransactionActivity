@@ -10,11 +10,13 @@ import academy.learnprogramming.utils.Constants.TABELBARANG
 import academy.learnprogramming.utils.InputAdapter
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import android.widget.Toast.LENGTH_LONG
@@ -28,7 +30,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 //import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationBarView
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.*
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
@@ -48,6 +53,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
     private lateinit var discCheckBox: CheckBox
     private lateinit var discountTv: EditText
     private lateinit var database: DatabaseReference
+    private lateinit var   bottomNavigationView: BottomNavigationView
 
     // private lateinit var totalBayar: TextView
 
@@ -75,9 +81,10 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         //_binding= DataBindingUtil.setContentView(this,R.layout.activity_push_itemtx)
 
         setContentView(R.layout.activity_transaction)
+
+        navigasiBawah()
         //   allInCart = ArrayList() /** menyiapkan kontener array buat recview di transaction activity */
 
-////////////////////////////////////////////////////////////////////////////////
         recyclerviewCart = findViewById(R.id.cartRecview)
         recyclerviewCart.layoutManager = LinearLayoutManager(this)
         recyclerviewCart.adapter = cartAdapter
@@ -135,6 +142,44 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
             simpanTranx()
         }
         //ini batas akhir on create
+    }
+
+    private fun navigasiBawah() {
+        bottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavigationView.selectedItemId = R.id.transaksi
+
+        bottomNavigationView.setOnItemSelectedListener (object:
+            NavigationView.OnNavigationItemSelectedListener,
+            NavigationBarView.OnItemSelectedListener {
+            override fun onNavigationItemSelected(item: MenuItem): Boolean {
+                when (item.itemId) {
+                    R.id.home -> {
+                        startActivity(Intent(applicationContext, HomeActivity::class.java))
+                        overridePendingTransition(0, 0)
+                        return true
+                    }
+
+                    R.id.inputItem ->{
+                        startActivity(Intent(applicationContext, InputItem::class.java))
+                        overridePendingTransition(0, 0)
+                        return true
+                    }
+
+                    R.id.transaksi ->{
+                        return true
+                    }
+                    R.id.editTransaksi ->{
+                        startActivity(Intent(applicationContext, EditTransaksi::class.java))
+                        overridePendingTransition(0, 0)
+                        return true
+                    }
+
+
+                }
+                return false
+            }
+        })
+
     }
 
     private fun swipeKiKa() {
