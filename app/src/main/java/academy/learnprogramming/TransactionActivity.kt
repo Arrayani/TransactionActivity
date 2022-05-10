@@ -8,11 +8,13 @@ import academy.learnprogramming.models.BarangCart
 import academy.learnprogramming.utils.CartAdapter
 import academy.learnprogramming.utils.Constants.TABELBARANG
 import academy.learnprogramming.utils.InputAdapter
+import academy.learnprogramming.utils.ValidNumber
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
+import android.icu.util.UniversalTimeScale
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -233,25 +235,32 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                         cartAdapter.restoreItem(editedItem, position)
                         updateAllinCartRecview()
                     }
-
+//ini bagian mengakses view di single_itemtx
                     dialogBox.findViewById<TextView>(R.id.tvmerkSingleTx).text = editedItem.merk
                     dialogBox.findViewById<TextView>(R.id.tvnamabarangSingleTx).text =
                         editedItem.namaBrg
                     dialogBox.findViewById<TextView>(R.id.tvvarianSingleTx).text =
                         editedItem.varian//("${barang.varian}")
                     dialogBox.findViewById<TextView>(R.id.tvstokSingleTx).text =
-                        editedItem.stok//("${barang.stok}")
+                        ValidNumber().deciformat((editedItem.stok.toString()))//editedItem.stok//("${barang.stok}")
                     dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text =
-                        editedItem.hargaJual
-                    dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = editedItem.qty//"1"
+                        ValidNumber().deciformat(editedItem.hargaJual.toString()) //editedItem.hargaJual
+                    dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text =
+                        ValidNumber().deciformat(editedItem.qty.toString()) ///editedItem.qty//"1"
+
                     dialogBox.findViewById<TextView>(R.id.tvunitSingleTx).text =
                         editedItem.unit//("${barang.unit}")
+
                     val total =
                         editedItem.qty?.toInt()  // ini gw ga tau kenapa otomatis dari intellij, utk mendapat nilai total
                             ?.let { editedItem.hargaJual?.toInt()?.times(it) }
+
+
                     dialogBox.findViewById<TextView>(R.id.totalSingleTx).text =
-                        total.toString()//("${barang.hargaJual}")
+                        ValidNumber().deciformat(total.toString())//("${barang.hargaJual}")
                     dialogBox.show()
+
+
                     //** mulai filter validasi item yg di edit
                     val jumlahBeliChange = dialogBox.findViewById<TextView>(R.id.tvQtyBeli)
                     val hargaJualChange = dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx)
@@ -260,7 +269,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                         if (focused) {
                             hargaJualChange.setSelectAllOnFocus(true)
                         } else if (!focused) {
-                            if (hargaJualChange.text.toString()
+                            if (ValidNumber().removedot(hargaJualChange.text.toString())
                                     .toInt() <= editedItem.hargaModal!!.toInt()
                             ) {
                                 Toast.makeText(
@@ -269,14 +278,14 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                                     Toast.LENGTH_SHORT
                                 )
                                     .show()
-                                hargaJualChange.text = editedItem.hargaJual
+                                hargaJualChange.text = ValidNumber().deciformat(editedItem.hargaJual.toString())
                                 return@setOnFocusChangeListener
                             }
                         }
                     }
                     hargaJualChange.addTextChangedListener {
                         if (hargaJualChange.text.toString().isEmpty()) {
-                            hargaJualChange.text = editedItem.hargaJual
+                            hargaJualChange.text = ValidNumber().deciformat(editedItem.hargaJual.toString())
                             Toast.makeText(
                                 this@TransactionActivity,
                                 "Harga Jual Wajib di atas harga modal",
@@ -288,8 +297,8 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                     }
 //ini untuk memfilter jika angka yg di masukan di awal angka 0
                     hargaJualChange.doAfterTextChanged {
-                        if (hargaJualChange.text.toString().startsWith("0")) {
-                            hargaJualChange.text = editedItem.hargaJual
+                        if (ValidNumber().removedot(hargaJualChange.text.toString()).startsWith("0")) {
+                            hargaJualChange.text = ValidNumber().deciformat(editedItem.hargaJual.toString())
                             Toast.makeText(
                                 this@TransactionActivity,
                                 "Harga Jual Wajib di atas harga modal",
@@ -300,47 +309,49 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                         }
                         //ini membuat perubahan di harga jual menjadi responsif di bagian total harga
                         else {
-                            x = (jumlahBeliChange.text.toString()
-                                .toInt()) * (hargaJualChange.text.toString()
-                                .toInt())
-                            dialogBox.findViewById<TextView>(R.id.totalSingleTx).text = x.toString()
+                          var  aTemp = ValidNumber().removedot(jumlahBeliChange.text.toString())
+                          var  bTemp  = ValidNumber().removedot(hargaJualChange.text.toString())
+                          x = aTemp.toInt()*bTemp.toInt()
+                         dialogBox.findViewById<TextView>(R.id.totalSingleTx).text =
+                             ValidNumber().deciformat(x.toString())
                         }
                     }
                     //kalo di layout ini buat Qty  pembelian
                     jumlahBeliChange.addTextChangedListener {
                         if (jumlahBeliChange.text.toString().isEmpty()) {
-                            jumlahBeliChange.text = editedItem.qty
+                            jumlahBeliChange.text = ValidNumber().deciformat(editedItem.qty.toString())
                         } else {
-                            x = (jumlahBeliChange.text.toString()
-                                .toInt()) * (hargaJualChange.text.toString()
-                                .toInt())
-                            dialogBox.findViewById<TextView>(R.id.totalSingleTx).text = x.toString()
+                            var  aTemp = ValidNumber().removedot(jumlahBeliChange.text.toString())
+                            var  bTemp  = ValidNumber().removedot(hargaJualChange.text.toString())
+                            x = aTemp.toInt()*bTemp.toInt()
+                            dialogBox.findViewById<TextView>(R.id.totalSingleTx).text =
+                                ValidNumber().deciformat(x.toString())
                         }
                     }
                     //ini pake startwith, jika angka pertama itu angka 0, otomatis ganti ke angka 1
                     jumlahBeliChange.doAfterTextChanged {
-                        if (jumlahBeliChange.text.toString().startsWith("0")) {
-                            jumlahBeliChange.text = editedItem.qty
+                        if (ValidNumber().removedot(jumlahBeliChange.text.toString()).startsWith("0")) {
+                            jumlahBeliChange.text = ValidNumber().deciformat(editedItem.qty.toString())
                         }
                     }
                     //clicklistener menambah jumlah qty beli
                     val qtybuttonPlus = dialogBox.findViewById<Button>(R.id.addButtonBeli)
                     qtybuttonPlus.setOnClickListener {
                         var qty =
-                            dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString().toInt()
+                            ValidNumber().removedot(dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString()).toInt()
                         qty++
-                        dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = qty.toString()
+                        dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = ValidNumber().deciformat(qty.toString())
                     }
                     //clicklistener mengurangi jumlah qty beli
                     val qtyButtonMinus = dialogBox.findViewById<Button>(R.id.minButtonBeli)
                     var y: Int
                     qtyButtonMinus.setOnClickListener {
-                        y = dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString().toInt()
+                        y = ValidNumber().removedot(dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString()).toInt()
                         if (y <= 1) {
                             dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = "1"
                         } else {
                             y--
-                            dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = y.toString()
+                            dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = ValidNumber().deciformat(y.toString())
                         }
                     }
                     /** submit proses */
@@ -348,13 +359,13 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                     val btnSubmit = dialogBox.findViewById<Button>(R.id.submit_input_single)
                     btnSubmit.setOnClickListener {
                         val totalbelitx =
-                            dialogBox.findViewById<TextView>(R.id.totalSingleTx).text.toString()
+                            ValidNumber().removedot(dialogBox.findViewById<TextView>(R.id.totalSingleTx).text.toString())
                         val scanHargaJual =
-                            dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text.toString()
+                            ValidNumber().removedot(dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text.toString())
                         val scanQty =
-                            dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString()
+                            ValidNumber().removedot(dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString())
                         //jika harga jual di edit tapi kurang/ sama dengan harga modal
-                        if (hargaJualChange.text.toString()
+                        if (ValidNumber().removedot(hargaJualChange.text.toString())
                                 .toInt() <= editedItem.hargaModal!!.toInt()
                         ) {
                             Toast.makeText(
@@ -364,7 +375,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                             )
                                 .show()
                             dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text =
-                                editedItem.hargaJual
+                                ValidNumber().deciformat(editedItem.hargaJual.toString())
                             hargaJualChange.isFocused
                             hargaJualChange.setSelectAllOnFocus(true)
                             return@setOnClickListener
@@ -743,13 +754,6 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-//                findViewById<TextView>(R.id.tvmerkMoney).text = ("${barang.merk}")
-//                findViewById<TextView>(R.id.tvnamabarangMoneyTx).text = ("${barang.namaBrg}")
-//                findViewById<TextView>(R.id.tvvarianMoneyTx).text = ("${barang.varian}")
-//                findViewById<TextView>(R.id.tvhargajualMoneyTx).text =  scanHargaJual     //("${barang.hargaJual}")
-//                findViewById<TextView>(R.id.tvunitMoneyTx).text = ("${barang.unit}")
-//                findViewById<TextView>(R.id.tvQtyMoney).text = scanQty
-//                findViewById<TextView>(R.id.totalMoneyTx).text = totalbelitx
 
 
                 allInCart.add(
