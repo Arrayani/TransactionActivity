@@ -21,8 +21,8 @@ class CartAdapter(val context: Context,val itemIncart:ArrayList<BarangCart>):
         var item: String? = null
         try {
            // itemIncart!![position]
-            item = itemIncart!![position].toString()
-            itemIncart!!.removeAt(position)
+            item = itemIncart[position].toString()
+            itemIncart.removeAt(position)
             notifyItemRemoved(position)
         } catch (e: Exception) {
             Log.e(TAG, e.message!!)
@@ -68,12 +68,25 @@ class CartAdapter(val context: Context,val itemIncart:ArrayList<BarangCart>):
         holder.namaBarang.text=currentitem.namaBrg
         holder.varian.text=currentitem.varian
 
-        holder.hargaJual.text=currentitem.hargaJual
-        holder.qty.text=currentitem.qty
-        holder.unit.text=currentitem.unit
-        holder.totalHarga.text=currentitem.total
-        // holder.hargaModal.text=currentitem.hargaModal
+        val oriHjual = currentitem.hargaJual.toString()
+        val convertHjual = ValidNumber().deciformat(oriHjual)
+        holder.hargaJual.text=convertHjual
+        //holder.hargaJual.text=currentitem.hargaJual
 
+        val oriQty = currentitem.qty.toString()
+        val convertQty = ValidNumber().deciformat(oriQty)
+        holder.qty.text=convertQty
+        //holder.qty.text=currentitem.qty
+
+        holder.unit.text=currentitem.unit
+
+        val oriTotalHarga = currentitem.total.toString()
+        val convertTotalHarga = ValidNumber().deciformat(oriTotalHarga)
+        holder.totalHarga.text=convertTotalHarga
+        //holder.totalHarga.text=currentitem.total
+
+
+        // holder.hargaModal.text=currentitem.hargaModal
         // Updating the background color according to the odd/even positions in list.
         if (position % 2 == 0) {
 
