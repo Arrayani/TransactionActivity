@@ -17,6 +17,8 @@ import android.graphics.Color
 import android.icu.util.UniversalTimeScale
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -40,6 +42,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.*
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import java.lang.Exception
+import java.lang.NumberFormatException
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 //class TransactionActivity : AppCompatActivity(),inputAdapter.ClickListener,cartAdapter.ClickListener{
 class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
@@ -52,10 +59,12 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
     private lateinit var dialogBox: Dialog
     private lateinit var recyclerviewCart: RecyclerView // ini recview buat final cart
     private lateinit var btnClose: Button
-    private lateinit var discCheckBox: CheckBox
-    private lateinit var discountTv: EditText
+//    private lateinit var discCheckBox: CheckBox
+//    private lateinit var discountTv: EditText
     private lateinit var database: DatabaseReference
     private lateinit var   bottomNavigationView: BottomNavigationView
+    private var editTextHrg: EditText? =null
+    private var editTextQty : EditText?=null
 
     // private lateinit var totalBayar: TextView
 
@@ -236,6 +245,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                         updateAllinCartRecview()
                     }
 //ini bagian mengakses view di single_itemtx
+
                     dialogBox.findViewById<TextView>(R.id.tvmerkSingleTx).text = editedItem.merk
                     dialogBox.findViewById<TextView>(R.id.tvnamabarangSingleTx).text =
                         editedItem.namaBrg
@@ -243,6 +253,73 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                         editedItem.varian//("${barang.varian}")
                     dialogBox.findViewById<TextView>(R.id.tvstokSingleTx).text =
                         ValidNumber().deciformat((editedItem.stok.toString()))//editedItem.stok//("${barang.stok}")
+                    //---------------------------------------------------------------------------------------------
+                    editTextHrg = dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx) as EditText
+                    editTextHrg!!.addTextChangedListener{
+                        fun hrgChangedListener(): TextWatcher? {
+                            return object:TextWatcher{
+                                override fun beforeTextChanged(
+                                    p0: CharSequence?,
+                                    p1: Int,
+                                    p2: Int,
+                                    p3: Int
+                                ) {}
+
+                                override fun onTextChanged(
+                                    s: CharSequence?,
+                                    p1: Int,
+                                    p2: Int,
+                                    p3: Int
+                                ) {
+                                    var originalString = s.toString()
+                                    val tempBeli = findViewById<EditText>(R.id.tvhargajualSingleTx).text
+                                    val jumlahBeliChange = findViewById<EditText>(R.id.tvhargajualSingleTx)
+                                    val  rootlayout =findViewById<View>(R.id.rootTransactionActivity)
+                                    if (originalString.startsWith("0")){
+                                        Snackbar.make(rootlayout,"Harga Jual Wajib di atas harga modal",Snackbar.LENGTH_LONG).show()
+                                        jumlahBeliChange.text.clear()
+                                        jumlahBeliChange.append(tempBeli)
+                                    }else
+                                        if(jumlahBeliChange.text.toString().isEmpty()){
+                                            Snackbar.make(rootlayout,"Harga Jual Wajib di atas harga modal",Snackbar.LENGTH_LONG).show()
+                                            jumlahBeliChange.text.clear()
+                                            jumlahBeliChange.append(tempBeli)
+                                            //jumlahBeliChange.append("1")
+                                        }
+                                }
+
+                                override fun afterTextChanged(s: Editable?) {
+                                    editTextHrg!!.removeTextChangedListener(this)
+                                    try {
+                                        var originalString = s.toString()
+                                        if (originalString.contains(".")) {
+                                            originalString = originalString.replace(".", "")
+                                        }
+                                        val longval : Long = originalString.toLong()
+                                        val formatter = NumberFormat.getInstance(Locale("in","ID")) as DecimalFormat
+                                        formatter.applyPattern("#,###,###,###")
+                                        val formattedString = formatter.format(longval)
+                                        editTextHrg!!.setText(formattedString)
+                                        editTextHrg!!.setSelection(editTextHrg!!.text.length)
+                                        //update total per item
+                                        val harga = findViewById<EditText>(R.id.tvhargajualSingleTx).text.toString()
+                                        val qty  = findViewById<EditText>(R.id.tvQtyBeli).text.toString()
+                                        val x:Long
+                                        val y:String
+                                        x= ValidNumber().removedot(harga).toLong()*ValidNumber().removedot(qty).toLong()
+                                        y=ValidNumber().deciformat(x.toString())
+                                        findViewById<TextView>(R.id.totalSingleTx).text=y
+                                        //end total per item
+                                    } catch (nfe: NumberFormatException) {
+                                        nfe.printStackTrace()
+                                    }
+                                    editTextQty!!.addTextChangedListener(this)
+                                }
+                            }
+                        }
+                    }
+
+
                     dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text =
                         ValidNumber().deciformat(editedItem.hargaJual.toString()) //editedItem.hargaJual
                     dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text =
@@ -477,7 +554,13 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         }
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(recyclerviewCart)
+        ///////////////////////////////////
+
+        ///////////////////////////////
     }
+
+
+
 
     //salesOrder send
     private fun simpanTranx() {
