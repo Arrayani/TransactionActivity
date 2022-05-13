@@ -1,5 +1,6 @@
 package academy.learnprogramming.utils
 
+import android.text.Editable
 import java.text.DecimalFormat
 
 /**
@@ -19,7 +20,7 @@ class ValidNumber {
         return hasiDeci
     }
 
-    fun removedot( terimaString:String):String{
+    fun removedot(terimaString: String):String{
         if (terimaString.contains(".")){
             val newterimaString = terimaString.replace(".", "")
             return newterimaString
