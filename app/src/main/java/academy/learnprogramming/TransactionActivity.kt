@@ -2,6 +2,7 @@ package academy.learnprogramming
 
 
 
+import academy.learnprogramming.databinding.ActivityPushItemtxBinding
 import academy.learnprogramming.databinding.SingleItemtxBinding
 import academy.learnprogramming.utils.Constants.SALESORDER
 import academy.learnprogramming.models.Barang
@@ -51,6 +52,8 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 //    private val binding get() = _binding!!
     private lateinit var singleItemtxBinding : SingleItemtxBinding
     private lateinit var singleItemDialog : Dialog
+    private lateinit var activityPushItemtxBinding :ActivityPushItemtxBinding
+    private lateinit var searchItemDialog : Dialog
     private lateinit var addsBtn: FloatingActionButton
     private lateinit var dbref: DatabaseReference
     private lateinit var recyclerview: RecyclerView
@@ -142,12 +145,12 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         }*/
         //ini buat menghapus transaksi
         val delTranx = findViewById<Button>(R.id.hapusTranx)
-        delTranx.setOnClickListener() {
+        delTranx.setOnClickListener {
             deleteTranx()
         }
         //ini buat menyimpan transaksi
         val saveTranx = findViewById<Button>(R.id.saveTranx)
-        saveTranx.setOnClickListener() {
+        saveTranx.setOnClickListener {
             simpanTranx()
         }
         //ini batas akhir on create
@@ -442,7 +445,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                 ).show()
             }
                 else {
-                    var temp =
+                    val temp =
                         BarangCart(
                             editedItem.merk, editedItem.namaBrg,
                             editedItem.varian, editedItem.hargaModal, scanHargaJual,
@@ -459,6 +462,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                     // ini kayanya tempat update array barangcart
                     //println(BarangCart.)
                 singleItemDialog.dismiss()
+
             }
         }
 
@@ -650,32 +654,40 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         //setActionTextColor(ContextCompat.getColor(this,R.color.accent)). ini untuk kasih warna di snackbar
     }
 
-
+//TODO konversi ke viewbinding
     private fun addInfo() {
 
-        //searchView = this.dialogBox.findViewById(R.id.searchViewDialog)
-        this.dialogBox = Dialog(this)
-        this.dialogBox.setContentView(R.layout.activity_push_itemtx)
-        //val searchView = this.dialogBox.findViewById(R.id.searchViewDialog) as SearchView
 
-        this.inputAdapter = InputAdapter(this@TransactionActivity, this@TransactionActivity)
+//        this.dialogBox = Dialog(this)
+//        this.dialogBox.setContentView(R.layout.activity_push_itemtx)
+//        this.inputAdapter = InputAdapter(this@TransactionActivity, this@TransactionActivity)
+
+    activityPushItemtxBinding = ActivityPushItemtxBinding.inflate(layoutInflater)
+    searchItemDialog = Dialog(this@TransactionActivity)
+    searchItemDialog.setContentView(activityPushItemtxBinding.root)
+    //
+    searchItemDialog.setCanceledOnTouchOutside(true)
         barangArrayList.clear() // kalo ga di clear data menjadi terus terduplikasi
         inputAdapter.setData(barangArrayList)
 
 
-
-        recyclerview = this.dialogBox.findViewById(R.id.barangListTx)
+        recyclerview= activityPushItemtxBinding.barangListTx
+        //recyclerview = this.dialogBox.findViewById(R.id.barangListTx)
         recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerview.setHasFixedSize(true)
 
         getBarangData()
-        dialogBox.show()
+
+
+       // dialogBox.show()
+    searchItemDialog.show()
         performSearch()
-        // val btnClose  = dialogBox.findViewById<Button>(R.id.closeInput)
-        btnClose = dialogBox.findViewById(R.id.closeInput)
+         val btnClose  = activityPushItemtxBinding.closeInput
+        //btnClose = dialogBox.findViewById(R.id.closeInput)
         btnClose.setOnClickListener {
+            searchItemDialog.dismiss()
             // this.dialogBox.cancel()
-            this.dialogBox.dismiss() // dismiss untuk menghemat memory
+            //this.dialogBox.dismiss() // dismiss untuk menghemat memory
             //this.dialogBox.setCanceledOnTouchOutside(true)
         }
 
@@ -891,7 +903,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 
                 println(allInCart)
                 this.dialogBox.dismiss()
-                btnClose.visibility = View.GONE
+               // btnClose.visibility = View.GONE
 
 //                btnClose.visibility = View.VISIBLE
 //                btnClose.setOnClickListener {
@@ -904,7 +916,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         btnCancel.setOnClickListener {
             this.dialogBox.cancel()
             //btnClose.text="Tekan area diluar kotak untuk exit"
-            btnClose.visibility = View.GONE
+           // btnClose.visibility = View.GONE
         }
         /*Toast.makeText(this, "$barang", Toast.LENGTH_SHORT).show()
         AlertDialog.Builder(this)
@@ -916,7 +928,8 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 
 
     private fun performSearch() {
-        val searchView = this.dialogBox.findViewById(R.id.searchViewDialog) as SearchView
+        val searchView = activityPushItemtxBinding.searchViewDialog as SearchView
+        //val searchView = this.dialogBox.findViewById(R.id.searchViewDialog) as SearchView
         //binding.searchViewDialog.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -981,5 +994,9 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
             findViewById<TextView>(R.id.totalBayar).text = "0"
         }
     }
+
+    /////////////////////////////////////////////////////////
+
 //////////////////////////////////////////////////////////
+
 }
