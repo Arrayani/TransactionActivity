@@ -307,7 +307,6 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         singleItemtxBinding = SingleItemtxBinding.inflate(layoutInflater)
         singleItemDialog = Dialog(this@TransactionActivity)
         singleItemDialog.setContentView(singleItemtxBinding.root)
-        singleItemDialog.setCanceledOnTouchOutside(true)
         singleItemtxBinding.tvmerkSingleTx.text = editedItem.merk
         singleItemtxBinding.tvnamabarangSingleTx.text = editedItem.namaBrg
         singleItemtxBinding.tvvarianSingleTx.text = editedItem.varian
@@ -465,7 +464,16 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 
             }
         }
-
+        val btnCancel=singleItemtxBinding.cancelInputSingle
+        btnCancel.setOnClickListener{
+            cartAdapter.restoreItem(editedItem,dontRemove!!)
+            updateAllinCartRecview()
+            singleItemDialog.dismiss()
+        }
+        singleItemDialog.setCanceledOnTouchOutside(false)
+//        dialogBox.setOnCancelListener {
+//            cartAdapter.restoreItem(editedItem, dontRemove!!)
+//            updateAllinCartRecview()
 
 
         singleItemDialog.show()
@@ -498,9 +506,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 
 
         //=------------------------------------------------------------------------
-//        dialogBox.setOnCancelListener {
-//            cartAdapter.restoreItem(editedItem, dontRemove!!)
-//            updateAllinCartRecview()
+
 //        }
         //-------------------------------------------------------------------------------
         //editTextHrg = dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx) as EditText

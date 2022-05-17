@@ -11,9 +11,9 @@
         <entry key="..\:/AndroidProject/TransactionActivity/app/src/main/res/layout/activity_input_item.xml" value="0.18229166666666666" />
         <entry key="..\:/AndroidProject/TransactionActivity/app/src/main/res/layout/activity_push_itemtx.xml" value="0.1794871794871795" />
         <entry key="..\:/AndroidProject/TransactionActivity/app/src/main/res/layout/activity_transaction.xml" value="0.22" />
-        <entry key="..\:/AndroidProject/TransactionActivity/app/src/main/res/layout/barang_itemtx.xml" value="0.5" />
+        <entry key="..\:/AndroidProject/TransactionActivity/app/src/main/res/layout/barang_itemtx.xml" value="0.22" />
         <entry key="..\:/AndroidProject/TransactionActivity/app/src/main/res/layout/make_money_itemtx.xml" value="0.33" />
-        <entry key="..\:/AndroidProject/TransactionActivity/app/src/main/res/layout/single_itemtx.xml" value="0.2" />
+        <entry key="..\:/AndroidProject/TransactionActivity/app/src/main/res/layout/single_itemtx.xml" value="0.25" />
         <entry key="..\:/AndroidProject/TransactionActivity/app/src/main/res/layout/total_panel.xml" value="0.33" />
         <entry key="..\:/AndroidProject/TransactionActivity/app/src/main/res/menu/editdeleteshow.xml" value="0.33" />
         <entry key="..\:/AndroidProject/TransactionActivity/app/src/main/res/menu/menu.xml" value="0.18229166666666666" />
@@ -30,5 +30,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.22" />
+      </ProjectState>
+    </option>
   </component>
 </project>
