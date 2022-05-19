@@ -463,6 +463,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 
                     // ini kayanya tempat update array barangcart
                     //println(BarangCart.)
+                Snackbar.make(rootlayout," Perubahan data Berhasil",Snackbar.LENGTH_LONG).show()
                 singleItemDialog.dismiss()
 
             }
@@ -472,6 +473,8 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
             cartAdapter.restoreItem(editedItem,dontRemove!!)
             updateAllinCartRecview()
             singleItemDialog.dismiss()
+            Snackbar.make(rootlayout,"Tidak ada perubahan data",Snackbar.LENGTH_LONG).show()
+            //rootlayout udah di deklarasikan di tempat lain, jadi tidak harus buat variable lagi buat rootlaayout
         }
         singleItemDialog.setCanceledOnTouchOutside(false)
 //        dialogBox.setOnCancelListener {
@@ -902,8 +905,8 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 
 // ini kayanya tempat update array barangcart
                 rootlayout =findViewById<View>(R.id.rootTransactionActivity)
-                Snackbar.make(rootlayout,"Berhasil menambahkan item ke keranjang",Snackbar.LENGTH_LONG)
-                    .setAnchorView(bottomNavigationView).show()
+                Snackbar.make(rootlayout,"Berhasil menambahkan item ke keranjang",Snackbar.LENGTH_LONG).show()
+                    //.setAnchorView(bottomNavigationView).show()
                // println(allInCart)
                 this.dialogBox.dismiss()
 
