@@ -760,7 +760,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
             insertNewItemToCart(barang)
         }
         if (allInCart.isNotEmpty()) {
-            println("ini akan muncul jika dbs sudah ada")
+            //println("ini akan muncul jika dbs sudah ada")
             val similar = ("${barang.brgId}")
             var found = false
             var pointer = 0
