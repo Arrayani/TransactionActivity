@@ -1,7 +1,6 @@
 package academy.learnprogramming
 
 
-
 import academy.learnprogramming.databinding.ActivityPushItemtxBinding
 import academy.learnprogramming.databinding.SwipeKiriTxBinding
 import academy.learnprogramming.utils.Constants.SALESORDER
@@ -51,23 +50,25 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
     //   private var _binding : ActivityPushItemtxBinding? = null
 //    private val binding get() = _binding!!
     private lateinit var swipeKiriTxBinding: SwipeKiriTxBinding
+
     //private lateinit var singleItemtxBinding : SingleItemtxBinding
-    private lateinit var singleItemDialog : Dialog
-    private lateinit var activityPushItemtxBinding :ActivityPushItemtxBinding
-    private lateinit var searchItemDialog : Dialog
+    private lateinit var singleItemDialog: Dialog
+    private lateinit var activityPushItemtxBinding: ActivityPushItemtxBinding
+    private lateinit var searchItemDialog: Dialog
     private lateinit var addsBtn: FloatingActionButton
     private lateinit var dbref: DatabaseReference
     private lateinit var recyclerview: RecyclerView
     private lateinit var dialogBox: Dialog
     private lateinit var recyclerviewCart: RecyclerView // ini recview buat final cart
-   // private lateinit var btnClose: Button
+
+    // private lateinit var btnClose: Button
 //    private lateinit var discCheckBox: CheckBox
 //    private lateinit var discountTv: EditText
     private lateinit var database: DatabaseReference
-    private lateinit var   bottomNavigationView: BottomNavigationView
-    private var editTextHrg: EditText? =null
-    private var editTextQty : EditText?=null
-    lateinit var rootlayout : View
+    private lateinit var bottomNavigationView: BottomNavigationView
+    private var editTextHrg: EditText? = null
+    private var editTextQty: EditText? = null
+    lateinit var rootlayout: View
 
     // private lateinit var totalBayar: TextView
 
@@ -162,7 +163,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         bottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.selectedItemId = R.id.transaksi
 
-        bottomNavigationView.setOnItemSelectedListener (object:
+        bottomNavigationView.setOnItemSelectedListener(object :
             NavigationView.OnNavigationItemSelectedListener,
             NavigationBarView.OnItemSelectedListener {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -173,16 +174,16 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                         return true
                     }
 
-                    R.id.inputItem ->{
+                    R.id.inputItem -> {
                         startActivity(Intent(applicationContext, InputItem::class.java))
                         overridePendingTransition(0, 0)
                         return true
                     }
 
-                    R.id.transaksi ->{
+                    R.id.transaksi -> {
                         return true
                     }
-                    R.id.editTransaksi ->{
+                    R.id.editTransaksi -> {
                         startActivity(Intent(applicationContext, EditTransaksi::class.java))
                         overridePendingTransition(0, 0)
                         return true
@@ -239,7 +240,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                     val editedItem = allInCart.get(position)
                     //kenapa di remove?? karena jika tidak diremove, bakal muncul background hijau yg tidak hilang
                     cartAdapter.removeItem(position)
-                    editCartItem(editedItem,position)
+                    editCartItem(editedItem, position)
                 }
                 /**** *88888888* ***/
             }
@@ -313,11 +314,12 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         swipeKiriTxBinding.tvmerkSingleTx.text = editedItem.merk
         swipeKiriTxBinding.tvnamabarangSingleTx.text = editedItem.namaBrg
         swipeKiriTxBinding.tvvarianSingleTx.text = editedItem.varian
-        swipeKiriTxBinding.tvstokSingleTx.text = ValidNumber().deciformat((editedItem.stok.toString()))//editedItem.stok
+        swipeKiriTxBinding.tvstokSingleTx.text =
+            ValidNumber().deciformat((editedItem.stok.toString()))//editedItem.stok
         val hargaJualOri = ValidNumber().deciformat(editedItem.hargaJual.toString())
-       // singleItemtxBinding.tvhargajualSingleTx.append(kucing)
+        // singleItemtxBinding.tvhargajualSingleTx.append(kucing)
         swipeKiriTxBinding.tvhargajualSingleTx.setText(hargaJualOri)
-        val qtyBeliOri=ValidNumber().deciformat(editedItem.qty.toString())
+        val qtyBeliOri = ValidNumber().deciformat(editedItem.qty.toString())
         swipeKiriTxBinding.tvQtyBeli.setText(qtyBeliOri)
 
         swipeKiriTxBinding.tvunitSingleTx.text = editedItem.unit
@@ -335,7 +337,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 
         //ini mulai menangani perubahan qty beli
 
-        editTextQty!!.addTextChangedListener{
+        editTextQty!!.addTextChangedListener {
             if (editTextQty!!.text.toString().isEmpty()) {
                 val oriQtyBeli = ValidNumber().deciformat(editedItem.qty.toString())
                 editTextQty!!.setText(oriQtyBeli)
@@ -353,14 +355,14 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                 return@doAfterTextChanged
             }
         }
-        editTextQty!!.setOnFocusChangeListener{_, focused ->
+        editTextQty!!.setOnFocusChangeListener { _, focused ->
             if (focused) {
                 //editTextQty!!.selectAll()
                 editTextQty!!.setSelectAllOnFocus(true)
-            }else if (!focused){
+            } else if (!focused) {
                 val x = ValidNumber().removedot(editTextQty!!.text.toString())
                 val y = editedItem.stok.toString()
-                if(x.toBigInteger()>y.toBigInteger()){
+                if (x.toBigInteger() > y.toBigInteger()) {
                     val oriQtyBeli = ValidNumber().deciformat(editedItem.qty.toString())
                     editTextQty!!.setText(oriQtyBeli)
                     Toast.makeText(this, "Stok anda kurang", Toast.LENGTH_SHORT)
@@ -372,7 +374,9 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         //ini mulai menangani perubahan harga jual
 
         editTextHrg!!.doAfterTextChanged {
-            if (editTextHrg!!.text.toString().startsWith("0")|| (editTextHrg!!.text.toString().isEmpty())) {
+            if (editTextHrg!!.text.toString().startsWith("0") || (editTextHrg!!.text.toString()
+                    .isEmpty())
+            ) {
                 val oriHargaJual = ValidNumber().deciformat(editedItem.hargaJual.toString())
                 editTextHrg!!.setText(oriHargaJual)
                 Toast.makeText(this, "Harga Jual tidak boleh kosong / 0", Toast.LENGTH_SHORT)
@@ -386,15 +390,14 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 //            }
 
         }
-        editTextHrg!!.setOnFocusChangeListener{_, focused ->
+        editTextHrg!!.setOnFocusChangeListener { _, focused ->
             if (focused) {
                 //editTextHrg!!.selectAll()
                 editTextHrg!!.setSelectAllOnFocus(true)
-            }
-            else if (!focused){
+            } else if (!focused) {
                 val x = ValidNumber().removedot(editTextHrg!!.text.toString())
                 val y = ValidNumber().removedot(editedItem.hargaModal.toString())
-                if(x.toBigInteger()<=y.toBigInteger()){
+                if (x.toBigInteger() <= y.toBigInteger()) {
                     val oriHargaJual = ValidNumber().deciformat(editedItem.hargaJual.toString())
                     editTextHrg!!.setText(oriHargaJual)
                     Toast.makeText(this, "Harga Jual Wajib di atas harga modal", Toast.LENGTH_SHORT)
@@ -406,74 +409,76 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 
         //mulai koding add minus button qty
         val qtyButtonPlus = swipeKiriTxBinding.addButtonBeli
-        qtyButtonPlus.setOnClickListener{
-            var qty = ValidNumber().removedot(swipeKiriTxBinding.tvQtyBeli.text.toString()).toBigInteger()
+        qtyButtonPlus.setOnClickListener {
+            var qty =
+                ValidNumber().removedot(swipeKiriTxBinding.tvQtyBeli.text.toString()).toBigInteger()
             qty++
             swipeKiriTxBinding.tvQtyBeli.setText(ValidNumber().deciformat(qty.toString()))
         }
         val qtyButtonMinus = swipeKiriTxBinding.minButtonBeli
-        qtyButtonMinus.setOnClickListener{
+        qtyButtonMinus.setOnClickListener {
             var qty = ValidNumber().removedot(swipeKiriTxBinding.tvQtyBeli.text.toString()).toInt()
-            if (qty<=1){
+            if (qty <= 1) {
                 swipeKiriTxBinding.tvQtyBeli.setText("1")
-            }else{
+            } else {
                 qty--
                 swipeKiriTxBinding.tvQtyBeli.setText(ValidNumber().deciformat(qty.toString()))
             }
         }
         //submit proses
-        val btnSubmit=swipeKiriTxBinding.submitInputSingle
-        btnSubmit.setOnClickListener{
-        val totalBeliTx= ValidNumber().removedot(swipeKiriTxBinding.totalSingleTx.text.toString())
-        val scanHargaJual = ValidNumber().removedot(swipeKiriTxBinding.tvhargajualSingleTx.text.toString())
-        val scanQty = ValidNumber().removedot(swipeKiriTxBinding.tvQtyBeli.text.toString())
+        val btnSubmit = swipeKiriTxBinding.submitInputSingle
+        btnSubmit.setOnClickListener {
+            val totalBeliTx =
+                ValidNumber().removedot(swipeKiriTxBinding.totalSingleTx.text.toString())
+            val scanHargaJual =
+                ValidNumber().removedot(swipeKiriTxBinding.tvhargajualSingleTx.text.toString())
+            val scanQty = ValidNumber().removedot(swipeKiriTxBinding.tvQtyBeli.text.toString())
             //jika harga jual di edit tapi kurang/ sama dengan harga modal
-        if (scanHargaJual.toInt()<= editedItem.hargaModal!!.toInt()){
-            Toast.makeText(
-                this@TransactionActivity,
-                "Harga Jual Wajib di atas harga modal",
-                Toast.LENGTH_SHORT
-            )
-                .show()
-            swipeKiriTxBinding.tvhargajualSingleTx.setText(ValidNumber().deciformat(editedItem.hargaJual.toString()))
-            editTextHrg!!.isFocused
-            editTextHrg!!.setSelectAllOnFocus(true)
+            if (scanHargaJual.toInt() <= editedItem.hargaModal!!.toInt()) {
+                Toast.makeText(
+                    this@TransactionActivity,
+                    "Harga Jual Wajib di atas harga modal",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+                swipeKiriTxBinding.tvhargajualSingleTx.setText(ValidNumber().deciformat(editedItem.hargaJual.toString()))
+                editTextHrg!!.isFocused
+                editTextHrg!!.setSelectAllOnFocus(true)
             }
-            if (scanQty.toInt()>editedItem.stok!!.toInt()) {
+            if (scanQty.toInt() > editedItem.stok!!.toInt()) {
                 Toast.makeText(
                     this@TransactionActivity,
                     "Stok kurang dari jumlah yang dibeli,mohon tambahkan dahulu stoknya",
                     Toast.LENGTH_SHORT
                 ).show()
-            }
-                else {
-                    val temp =
-                        BarangCart(
-                            editedItem.merk, editedItem.namaBrg,
-                            editedItem.varian, editedItem.hargaModal, scanHargaJual,
-                            editedItem.stok, editedItem.unit, editedItem.brgId,
-                            scanQty, totalBeliTx
-                        )
+            } else {
+                val temp =
+                    BarangCart(
+                        editedItem.merk, editedItem.namaBrg,
+                        editedItem.varian, editedItem.hargaModal, scanHargaJual,
+                        editedItem.stok, editedItem.unit, editedItem.brgId,
+                        scanQty, totalBeliTx
+                    )
                 if (dontRemove != null) {
                     cartAdapter.revised(temp, dontRemove.toInt())
                 }
 
-                    //println("uraa"+temp)
-                    updateAllinCartRecview()
+                //println("uraa"+temp)
+                updateAllinCartRecview()
 
-                    // ini kayanya tempat update array barangcart
-                    //println(BarangCart.)
-                Snackbar.make(rootlayout," Perubahan data Berhasil",Snackbar.LENGTH_LONG).show()
+                // ini kayanya tempat update array barangcart
+                //println(BarangCart.)
+                Snackbar.make(rootlayout, " Perubahan data Berhasil", Snackbar.LENGTH_LONG).show()
                 singleItemDialog.dismiss()
 
             }
         }
-        val btnCancel=swipeKiriTxBinding.cancelInputSingle
-        btnCancel.setOnClickListener{
-            cartAdapter.restoreItem(editedItem,dontRemove!!)
+        val btnCancel = swipeKiriTxBinding.cancelInputSingle
+        btnCancel.setOnClickListener {
+            cartAdapter.restoreItem(editedItem, dontRemove!!)
             updateAllinCartRecview()
             singleItemDialog.dismiss()
-            Snackbar.make(rootlayout,"Tidak ada perubahan data",Snackbar.LENGTH_LONG).show()
+            Snackbar.make(rootlayout, "Tidak ada perubahan data", Snackbar.LENGTH_LONG).show()
             //rootlayout udah di deklarasikan di tempat lain, jadi tidak harus buat variable lagi buat rootlaayout
         }
         singleItemDialog.setCanceledOnTouchOutside(false)
@@ -520,10 +525,10 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
     }
 
     private fun qtyBeliChangedListener(): TextWatcher {
-        return object :TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {  }
+        return object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {  }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
                 editTextQty!!.removeTextChangedListener(this)
@@ -533,14 +538,14 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                         originalString = originalString.replace(".", "")
                     }
 
-                    val longval : Long = originalString.toLong()
-                    val formatter = NumberFormat.getInstance(Locale("in","ID")) as DecimalFormat
+                    val longval: Long = originalString.toLong()
+                    val formatter = NumberFormat.getInstance(Locale("in", "ID")) as DecimalFormat
                     formatter.applyPattern("#,###,###,###")
                     val formattedString = formatter.format(longval)
                     editTextQty!!.setText(formattedString)
                     editTextQty!!.setSelection(editTextQty!!.text.length)
                     updateTotalItem()
-                }catch (nfe: NumberFormatException){
+                } catch (nfe: NumberFormatException) {
                     nfe.printStackTrace()
                 }
                 editTextQty!!.addTextChangedListener(this)
@@ -552,10 +557,10 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
     }
 
     private fun hrgChangedListener(): TextWatcher {
-    return object:TextWatcher{
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+        return object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-        override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
 //            val oldHargaJual = singleItemtxBinding.tvhargajualSingleTx.text.toString()
 //            var originalString = s.toString()
 //            var  hargaJualChange = singleItemtxBinding.tvhargajualSingleTx
@@ -571,39 +576,39 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 //                    hargaJualChange.setText(oldHargaJual)
 //                    //ju`m`lahBeliChange.append("1")
 //                }
-        }
+            }
 
-        override fun afterTextChanged(s: Editable?) {
-            editTextHrg!!.removeTextChangedListener(this)
-            try {
-                var originalString = s.toString()
-                if (originalString.contains(".")) {
-                    originalString = originalString.replace(".", "")
+            override fun afterTextChanged(s: Editable?) {
+                editTextHrg!!.removeTextChangedListener(this)
+                try {
+                    var originalString = s.toString()
+                    if (originalString.contains(".")) {
+                        originalString = originalString.replace(".", "")
+                    }
+
+                    val longval: Long = originalString.toLong()
+                    val formatter = NumberFormat.getInstance(Locale("in", "ID")) as DecimalFormat
+                    formatter.applyPattern("#,###,###,###")
+                    val formattedString = formatter.format(longval)
+                    editTextHrg!!.setText(formattedString)
+                    editTextHrg!!.setSelection(editTextHrg!!.text.length)
+                    updateTotalItem()
+                } catch (nfe: NumberFormatException) {
+                    nfe.printStackTrace()
                 }
+                editTextHrg!!.addTextChangedListener(this)
+            }
 
-                val longval : Long = originalString.toLong()
-                val formatter = NumberFormat.getInstance(Locale("in","ID")) as DecimalFormat
-                formatter.applyPattern("#,###,###,###")
-                val formattedString = formatter.format(longval)
-                editTextHrg!!.setText(formattedString)
-                editTextHrg!!.setSelection(editTextHrg!!.text.length)
-                updateTotalItem()
-            }catch (nfe: NumberFormatException){
-                nfe.printStackTrace()
-                 }
-            editTextHrg!!.addTextChangedListener(this)
         }
-
     }
-}
 
     private fun updateTotalItem() {
-        val x :BigInteger
+        val x: BigInteger
         val y = ValidNumber().removedot(editTextHrg!!.text.toString())
         val z = ValidNumber().removedot(editTextQty!!.text.toString())
         //x= (editTextHrg!!.text.toString().toInt())*editTextQty!!.text.toString().toInt()
-        x=y.toBigInteger()*z.toBigInteger()
-        swipeKiriTxBinding.totalSingleTx.text=ValidNumber().deciformat(x.toString())
+        x = y.toBigInteger() * z.toBigInteger()
+        swipeKiriTxBinding.totalSingleTx.text = ValidNumber().deciformat(x.toString())
     }
 
     //salesOrder send
@@ -657,7 +662,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         allInCart.clear()
         cartAdapter.notifyDataSetChanged()
         val totalreset = findViewById<TextView>(R.id.totalBayar)
-        totalreset.text=""
+        totalreset.text = ""
 //kalo info dari web android developer, snackbar lebih sering digunakan di banding toast
 //untuk menggunakan snackbar, berikan nama di root layout
         Snackbar.make(
@@ -668,7 +673,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         //setActionTextColor(ContextCompat.getColor(this,R.color.accent)). ini untuk kasih warna di snackbar
     }
 
-//TODO konversi ke viewbinding
+    //TODO konversi ke viewbinding
     private fun addInfo() {
 
 
@@ -676,29 +681,29 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 //        this.dialogBox.setContentView(R.layout.activity_push_itemtx)
 //        this.inputAdapter = InputAdapter(this@TransactionActivity, this@TransactionActivity)
 
-    activityPushItemtxBinding = ActivityPushItemtxBinding.inflate(layoutInflater)
-    searchItemDialog = Dialog(this@TransactionActivity)
-    searchItemDialog.setContentView(activityPushItemtxBinding.root)
-    //
-    searchItemDialog.setCanceledOnTouchOutside(true)
+        activityPushItemtxBinding = ActivityPushItemtxBinding.inflate(layoutInflater)
+        searchItemDialog = Dialog(this@TransactionActivity)
+        searchItemDialog.setContentView(activityPushItemtxBinding.root)
+        //
+        searchItemDialog.setCanceledOnTouchOutside(true)
         barangArrayList.clear() // kalo ga di clear data menjadi terus terduplikasi
         inputAdapter.setData(barangArrayList)
 
-        recyclerview= activityPushItemtxBinding.barangListTx
+        recyclerview = activityPushItemtxBinding.barangListTx
         //recyclerview = this.dialogBox.findViewById(R.id.barangListTx)
         recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerview.setHasFixedSize(true)
 
         getBarangData()
         performSearch()
-         val btnClose  = activityPushItemtxBinding.closeInput
+        val btnClose = activityPushItemtxBinding.closeInput
         btnClose.setOnClickListener {
             searchItemDialog.dismiss()
             // this.dialogBox.cancel()
             //this.dialogBox.dismiss() // dismiss untuk menghemat memory
             //this.dialogBox.setCanceledOnTouchOutside(true)
         }
-    searchItemDialog.show()
+        searchItemDialog.show()
     }
 
 
@@ -748,7 +753,63 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
 
     override fun ClickedItem(barang: Barang) {
         searchItemDialog.dismiss()
-        //println(barang.namaBrg!!)
+
+        println("${barang.brgId}")
+        if (allInCart.isEmpty()) {
+            //println("ini empty")
+            insertNewItemToCart(barang)
+        }
+        if (allInCart.isNotEmpty()) {
+            println("ini akan muncul jika dbs sudah ada")
+            val similar = ("${barang.brgId}")
+            var found = false
+            var pointer = 0
+            for(search in allInCart.indices) {
+                if (similar == allInCart[pointer].brgId) {
+                    found = true
+                    Toast.makeText(this, "Item sudah ada di dalam keranjang", Toast.LENGTH_SHORT).show()
+                    //println("sama dengan item index0")
+                    break // ini magic banget dah, kalo ga pake ini proses menolak item dengan  id yg sama gagal maning
+                } else found = false
+                pointer+=1
+            }
+            if(found == false){
+                insertNewItemToCart(barang)
+            }
+        }
+
+
+
+
+//        println(allInCart[0].brgId)
+//        if (allInCart.isNotEmpty()) {
+//            val similar = ("${barang.brgId}")
+//            var pointer = 0
+//            var found = false
+//            for (idBarang in allInCart.indices) {
+//                if (similar == allInCart[pointer].brgId) {
+//                    //Toast.makeText(this,"Already There",Toast.LENGTH_SHORT).show()
+//                    found == true
+//                    break
+//                }else{ pointer +=1}
+//                if (found){
+//                    Toast.makeText(this,"Already There",Toast.LENGTH_SHORT).show()
+//                }else{
+//                    insertNewItemToCart(barang)
+//                }
+//                }
+//        }
+    }
+
+    /*Toast.makeText(this, "$barang", Toast.LENGTH_SHORT).show()
+AlertDialog.Builder(this)
+ .setTitle("item yang anda tekan ")
+ .setMessage("${barang.merk},${barang.namaBrg},${barang.varian},${barang.brgId}")
+   //.setPositiveButton("ok")
+ .create().show()*/
+
+
+    private fun insertNewItemToCart(barang: Barang) {
         this.dialogBox = Dialog(this)
         this.dialogBox.setContentView(R.layout.single_itemtx)
         this.dialogBox.findViewById<TextView>(R.id.tvmerkSingleTx).text = ("${barang.merk}")
@@ -904,10 +965,14 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                 /////////////////////////////////////////////////////////////////////////////////
 
 // ini kayanya tempat update array barangcart
-                rootlayout =findViewById<View>(R.id.rootTransactionActivity)
-                Snackbar.make(rootlayout,"Berhasil menambahkan item ke keranjang",Snackbar.LENGTH_LONG).show()
-                    //.setAnchorView(bottomNavigationView).show()
-               // println(allInCart)
+                rootlayout = findViewById<View>(R.id.rootTransactionActivity)
+                Snackbar.make(
+                    rootlayout,
+                    "Berhasil menambahkan item ke keranjang",
+                    Snackbar.LENGTH_LONG
+                ).show()
+                //.setAnchorView(bottomNavigationView).show()
+                // println(allInCart)
                 this.dialogBox.dismiss()
 
             }
@@ -917,14 +982,9 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         btnCancel.setOnClickListener {
             this.dialogBox.cancel()
             //btnClose.text="Tekan area diluar kotak untuk exit"
-           // btnClose.visibility = View.GONE
+            // btnClose.visibility = View.GONE
         }
-        /*Toast.makeText(this, "$barang", Toast.LENGTH_SHORT).show()
-        AlertDialog.Builder(this)
-            .setTitle("item yang anda tekan ")
-            .setMessage("${barang.merk},${barang.namaBrg},${barang.varian},${barang.brgId}")
-              //.setPositiveButton("ok")
-            .create().show()*/
+
     }
 
 
@@ -974,7 +1034,6 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
     }
 
 
-
     //    }
     ////////////////////////////////////////////////////
     fun updateAllinCartRecview() {
@@ -988,7 +1047,8 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                 subTotal += allInCart[hargajual].total!!.toInt()
             }
             //findViewById<TextView>(R.id.totalBayar).text = subTotal.toString()
-            findViewById<TextView>(R.id.totalBayar).text = ValidNumber().deciformat(subTotal.toString())
+            findViewById<TextView>(R.id.totalBayar).text =
+                ValidNumber().deciformat(subTotal.toString())
 
             //Toast.makeText(this, "ini harga jual", Toast.LENGTH_SHORT).show()
         } else {
