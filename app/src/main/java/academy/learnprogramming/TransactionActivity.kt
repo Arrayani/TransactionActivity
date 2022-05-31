@@ -2,6 +2,7 @@ package academy.learnprogramming
 
 
 import academy.learnprogramming.databinding.ActivityPushItemtxBinding
+import academy.learnprogramming.databinding.SingleItemtxBinding
 import academy.learnprogramming.databinding.SwipeKiriTxBinding
 import academy.learnprogramming.utils.Constants.SALESORDER
 import academy.learnprogramming.models.Barang
@@ -50,6 +51,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
     //   private var _binding : ActivityPushItemtxBinding? = null
 //    private val binding get() = _binding!!
     private lateinit var swipeKiriTxBinding: SwipeKiriTxBinding
+    private lateinit var singleItemtxBinding: SingleItemtxBinding
 
     //private lateinit var singleItemtxBinding : SingleItemtxBinding
     private lateinit var singleItemDialog: Dialog
@@ -333,7 +335,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         editTextHrg = swipeKiriTxBinding.tvhargajualSingleTx
         editTextQty = swipeKiriTxBinding.tvQtyBeli
 
-        updateTotalItem()
+        updateTotalItem2()
 
         //ini mulai menangani perubahan qty beli
 
@@ -544,7 +546,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                     val formattedString = formatter.format(longval)
                     editTextQty!!.setText(formattedString)
                     editTextQty!!.setSelection(editTextQty!!.text.length)
-                    updateTotalItem()
+                    updateTotalItem2()
                 } catch (nfe: NumberFormatException) {
                     nfe.printStackTrace()
                 }
@@ -592,7 +594,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
                     val formattedString = formatter.format(longval)
                     editTextHrg!!.setText(formattedString)
                     editTextHrg!!.setSelection(editTextHrg!!.text.length)
-                    updateTotalItem()
+                    updateTotalItem2()
                 } catch (nfe: NumberFormatException) {
                     nfe.printStackTrace()
                 }
@@ -602,7 +604,7 @@ class TransactionActivity : AppCompatActivity(), InputAdapter.ClickListener {
         }
     }
 
-    private fun updateTotalItem() {
+    private fun updateTotalItem2() {
         val x: BigInteger
         val y = ValidNumber().removedot(editTextHrg!!.text.toString())
         val z = ValidNumber().removedot(editTextQty!!.text.toString())
@@ -810,18 +812,32 @@ AlertDialog.Builder(this)
 
 
     private fun insertNewItemToCart(barang: Barang) {
+        singleItemtxBinding = SingleItemtxBinding.inflate(layoutInflater)
         this.dialogBox = Dialog(this)
-        this.dialogBox.setContentView(R.layout.single_itemtx)
-        this.dialogBox.findViewById<TextView>(R.id.tvmerkSingleTx).text = ("${barang.merk}")
-        this.dialogBox.findViewById<TextView>(R.id.tvnamabarangSingleTx).text =
-            ("${barang.namaBrg}")
-        this.dialogBox.findViewById<TextView>(R.id.tvvarianSingleTx).text = ("${barang.varian}")
-        this.dialogBox.findViewById<TextView>(R.id.tvstokSingleTx).text = ("${barang.stok}")
-        this.dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text =
-            ("${barang.hargaJual}")
-        this.dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = "1"
-        this.dialogBox.findViewById<TextView>(R.id.tvunitSingleTx).text = ("${barang.unit}")
-        this.dialogBox.findViewById<TextView>(R.id.totalSingleTx).text = ("${barang.hargaJual}")
+        this.dialogBox.setContentView(singleItemtxBinding.root)
+        singleItemtxBinding.tvmerkSingleTx.text =  ("${barang.merk}")
+        singleItemtxBinding.tvnamabarangSingleTx.text = ("${barang.namaBrg}")
+        singleItemtxBinding.tvvarianSingleTx.text = ("${barang.varian}")
+        singleItemtxBinding.tvstokSingleTx.text = ("${barang.stok}")
+        singleItemtxBinding.tvhargajualSingleTx.setText("${barang.hargaJual}")
+        singleItemtxBinding.tvQtyBeli.setText("1")
+        singleItemtxBinding.tvunitSingleTx.text= ("${barang.unit}")
+        singleItemtxBinding.totalSingleTx.text=("${barang.hargaJual}")
+
+
+
+
+//        this.dialogBox.setContentView(R.layout.single_itemtx)
+//        this.dialogBox.findViewById<TextView>(R.id.tvmerkSingleTx).text = ("${barang.merk}")
+//        this.dialogBox.findViewById<TextView>(R.id.tvnamabarangSingleTx).text =
+//            ("${barang.namaBrg}")
+//        this.dialogBox.findViewById<TextView>(R.id.tvvarianSingleTx).text = ("${barang.varian}")
+//        this.dialogBox.findViewById<TextView>(R.id.tvstokSingleTx).text = ("${barang.stok}")
+//        this.dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text =
+//            ("${barang.hargaJual}")
+//        this.dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = "1"
+//        this.dialogBox.findViewById<TextView>(R.id.tvunitSingleTx).text = ("${barang.unit}")
+//        this.dialogBox.findViewById<TextView>(R.id.totalSingleTx).text = ("${barang.hargaJual}")
         //       findViewById<Button>(R.id.closeInput).visibility = View.INVISIBLE
         //btnClose.visibility = View.INVISIBLE
 
@@ -836,9 +852,67 @@ AlertDialog.Builder(this)
         //changeBeli.setOnFocusChangeListener()
         //texthchangelistener  untuk merefresh total jumlah beli
         // juga menghindari input 0 atau kosong
-        val jumlahBeliChange = this.dialogBox.findViewById<TextView>(R.id.tvQtyBeli)
-        val hargaJualChange = this.dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx)
+        //val jumlahBeliChange = this.dialogBox.findViewById<EditText>(R.id.tvQtyBeli)
+        //val hargaJualChange = this.dialogBox.findViewById<EditText>(R.id.tvhargajualSingleTx)
+        val jumlahBeliChange = singleItemtxBinding.tvQtyBeli
+        val hargaJualChange = singleItemtxBinding.tvhargajualSingleTx
         var x: Int
+
+        //kalo di layout ini buat Qty  pembelian
+        jumlahBeliChange.addTextChangedListener {
+            if (jumlahBeliChange.text.toString().isEmpty()) {
+                jumlahBeliChange.setText("1")
+                Toast.makeText(this, "Qty tidak boleh kosong / 0", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+        //ini pake startwith, jika angka pertama itu angka 0, otomatis ganti ke angka 1
+        jumlahBeliChange.doAfterTextChanged {
+            if (jumlahBeliChange.text.toString().startsWith("0")) {
+                jumlahBeliChange.setText("1")
+                Toast.makeText(this, "Qty tidak boleh kosong / 0", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+        jumlahBeliChange!!.setOnFocusChangeListener{_,focused ->
+            if (focused){
+                jumlahBeliChange.setSelectAllOnFocus(true)
+            }else if(!focused){
+                val x = ValidNumber().removedot(jumlahBeliChange.text.toString())
+                val y =  ("${barang.stok}").toString()
+                if (x.toBigInteger()>y.toBigInteger()){
+                    val maxBeli = ValidNumber().deciformat(("${barang.stok}").toString())
+                    jumlahBeliChange.setText(maxBeli)
+                    Toast.makeText(this, "Stok anda kurang", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+// ini textwatcher perubahan jumlah beli
+        jumlahBeliChange.addTextChangedListener(jbchange())
+
+
+///==========================================================================
+
+        hargaJualChange.doAfterTextChanged {
+            if (hargaJualChange.text.toString().startsWith("0")
+                || hargaJualChange.text.toString().isEmpty()) {
+                hargaJualChange.setText( ("${barang.hargaJual}"))
+                Toast.makeText(this, "Harga Jual Wajib di atas harga modal", Toast.LENGTH_SHORT)
+                    .show()
+                return@doAfterTextChanged
+            }
+            //ini membuat perubahan di harga jual menjadi responsif di bagian total harga
+            else {
+                updateTotalItem2()
+//                x = (jumlahBeliChange.text.toString().toInt()) * (hargaJualChange.text.toString()
+//                    .toInt())
+//                dialogBox.findViewById<TextView>(R.id.totalSingleTx).text = x.toString()
+            }
+        }
+
+
 
         hargaJualChange.setOnFocusChangeListener { _, focused ->
             if (focused) {
@@ -846,105 +920,91 @@ AlertDialog.Builder(this)
 //                this.dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text=("${barang.hargaJual}")
 //                return@setOnFocusChangeListener
             } else if (!focused) {
-                if (hargaJualChange.text.toString().toInt() <= ("${barang.hargaModal}").toInt()) {
-                    Toast.makeText(this, "Harga Jual Wajib di atas harga modal", Toast.LENGTH_SHORT)
-                        .show()
-                    hargaJualChange.text = ("${barang.hargaJual}")
+                val x = ValidNumber().removedot(jumlahBeliChange.text.toString())
+                val y = ValidNumber().removedot(("${barang.hargaModal}").toString())
+                if (x.toBigInteger() <= y.toBigInteger()) {
+                    val orihargaJual = ValidNumber().deciformat(("${barang.hargaJual}").toString())
+                    hargaJualChange.setText ("${barang.hargaJual}")
                     return@setOnFocusChangeListener
                 }
             }
 
         }
-        hargaJualChange.addTextChangedListener {
-            if (hargaJualChange.text.toString().isEmpty()) {
-                hargaJualChange.text = ("${barang.hargaJual}")
-                Toast.makeText(this, "Harga Jual Wajib di atas harga modal", Toast.LENGTH_SHORT)
-                    .show()
-                return@addTextChangedListener
-            }
-        }
+//        hargaJualChange.addTextChangedListener {
+//            if (hargaJualChange.text.toString().isEmpty()) {
+//                hargaJualChange.text = ("${barang.hargaJual}")
+//                Toast.makeText(this, "Harga Jual Wajib di atas harga modal", Toast.LENGTH_SHORT)
+//                    .show()
+//                return@addTextChangedListener
+//            }
+//        }
 
-        hargaJualChange.doAfterTextChanged {
-            if (hargaJualChange.text.toString().startsWith("0")) {
-                hargaJualChange.text = ("${barang.hargaJual}")
-                Toast.makeText(this, "Harga Jual Wajib di atas harga modal", Toast.LENGTH_SHORT)
-                    .show()
-                return@doAfterTextChanged
-            }
-            //ini membuat perubahan di harga jual menjadi responsif di bagian total harga
-            else {
-                x = (jumlahBeliChange.text.toString().toInt()) * (hargaJualChange.text.toString()
-                    .toInt())
-                dialogBox.findViewById<TextView>(R.id.totalSingleTx).text = x.toString()
-            }
-        }
-//kalo di layout ini buat Qty  pembelian
-        jumlahBeliChange.addTextChangedListener {
-            if (jumlahBeliChange.text.toString().isEmpty()) {
-                jumlahBeliChange.text = "1"
-            } else {
-                x = (jumlahBeliChange.text.toString().toInt()) * (hargaJualChange.text.toString()
-                    .toInt())
-                this.dialogBox.findViewById<TextView>(R.id.totalSingleTx).text = x.toString()
-            }
-        }
-//ini pake startwith, jika angka pertama itu angka 0, otomatis ganti ke angka 1
-        jumlahBeliChange.doAfterTextChanged {
-            if (jumlahBeliChange.text.toString().startsWith("0")) {
-                jumlahBeliChange.text = "1"
-            }
-        }
+
+
+
         //clicklistener menambah jumlah qty beli
-        val qtybuttonPlus = dialogBox.findViewById<Button>(R.id.addButtonBeli)
+//        val qtybuttonPlus = dialogBox.findViewById<Button>(R.id.addButtonBeli)
+        val qtybuttonPlus = singleItemtxBinding.addButtonBeli
 
         qtybuttonPlus.setOnClickListener {
-            var qty = dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString().toInt()
+            //var qty =ValidNumber().removedot( dialogBox.findViewById<EditText>(R.id.tvQtyBeli).text.toString()).toBigInteger()
+            var qty =ValidNumber().removedot(singleItemtxBinding.tvQtyBeli.text.toString()).toBigInteger()
+            //qty = qty.toInt()
             qty++
-            dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = qty.toString()
+            //dialogBox.findViewById<EditText>(R.id.tvQtyBeli).setText(qty.toString())
+            singleItemtxBinding.tvQtyBeli.setText(qty.toString())
         }
         //clicklistener mengurangi jumlah qty beli
-        val qtyButtonMinus = dialogBox.findViewById<Button>(R.id.minButtonBeli)
+        //val qtyButtonMinus = dialogBox.findViewById<Button>(R.id.minButtonBeli)
+        val qtyButtonMinus = singleItemtxBinding.minButtonBeli
         var y: Int
         qtyButtonMinus.setOnClickListener {
-            y = dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString().toInt()
-            // val  m=dialogBox.findViewById<TextView>(R.id.tvJumlahBeli)?.text.toString().trim()
-            // if (y<=1 || m.isNullOrEmpty() || m.isNullOrBlank()){
+            //y = dialogBox.findViewById<EditText>(R.id.tvQtyBeli).text.toString().toInt()
+            y = singleItemtxBinding.tvQtyBeli.text.toString().toInt()
             if (y <= 1) {
-                dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = "1"
+                //dialogBox.findViewById<EditText>(R.id.tvQtyBeli).setText("1")
+                singleItemtxBinding.tvQtyBeli.setText("1")
             } else {
                 y--
-                dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text = y.toString()
+                //dialogBox.findViewById<EditText>(R.id.tvQtyBeli).setText( y.toString())
+               singleItemtxBinding.tvQtyBeli.setText( y.toString())
             }
         }
         //submit proses
-        val btnSubmit = dialogBox.findViewById<Button>(R.id.submit_input_single)
+        //val btnSubmit = dialogBox.findViewById<Button>(R.id.submit_input_single)
+        val btnSubmit = singleItemtxBinding.submitInputSingle
         btnSubmit.setOnClickListener {
-            val totalbelitx =
-                this.dialogBox.findViewById<TextView>(R.id.totalSingleTx).text.toString()
-            val scanHargaJual =
-                this.dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text.toString()
-            val scanQty = this.dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString()
+            var totalbelitx =
+                //this.dialogBox.findViewById<TextView>(R.id.totalSingleTx).text.toString()
+                singleItemtxBinding.totalSingleTx.text.toString()
+            var scanHargaJual =
+            //    this.dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text.toString()
+                singleItemtxBinding.tvhargajualSingleTx.text.toString()
+
+            //val scanQty = this.dialogBox.findViewById<TextView>(R.id.tvQtyBeli).text.toString()
+            var scanQty = singleItemtxBinding.tvQtyBeli.text.toString()
             //jika harga jual di edit tapi kurang/ sama dengan harga modal
             if (hargaJualChange.text.toString().toInt() <= ("${barang.hargaModal}").toInt()) {
                 Toast.makeText(this, "Harga Jual Wajib di atas harga modal", Toast.LENGTH_SHORT)
                     .show()
-                this.dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text =
-                    ("${barang.hargaJual}")
+                //this.dialogBox.findViewById<TextView>(R.id.tvhargajualSingleTx).text =
+                singleItemtxBinding.tvhargajualSingleTx.setText("${barang.hargaJual}")
                 hargaJualChange.isFocused
                 hargaJualChange.setSelectAllOnFocus(true)
                 return@setOnClickListener
 
             }
             //jika qty  beli melebihi stok
-            if (scanQty.toInt() > ("${barang.stok}").toInt()) {
+            if (ValidNumber().removedot(scanQty).toInt() > ("${barang.stok}").toInt()) {
                 Toast.makeText(
                     this,
                     "Stok kurang dari jumlah yang dibeli,mohon tambahkan dahulu stoknya",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-
-
+                scanHargaJual = ValidNumber().removedot(scanHargaJual)
+                scanQty = ValidNumber().removedot(scanQty)
+                totalbelitx = ValidNumber().removedot(totalbelitx)
                 allInCart.add(
                     BarangCart(
                         "${barang.merk}", "${barang.namaBrg}",
@@ -978,13 +1038,57 @@ AlertDialog.Builder(this)
             }
         }
 //untuk menngcancel di layar ke tiga
-        val btnCancel = dialogBox.findViewById<Button>(R.id.cancel_input_single)
+        //val btnCancel = dialogBox.findViewById<Button>(R.id.cancel_input_single)
+        val btnCancel = singleItemtxBinding.cancelInputSingle
         btnCancel.setOnClickListener {
             this.dialogBox.cancel()
             //btnClose.text="Tekan area diluar kotak untuk exit"
             // btnClose.visibility = View.GONE
         }
 
+    }
+
+    private fun jbchange(): TextWatcher? {
+        return object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+
+            override fun afterTextChanged(s: Editable?) {
+                val jumlahBeliChange = singleItemtxBinding.tvQtyBeli
+                jumlahBeliChange.removeTextChangedListener(this)
+                try {
+                    var originalString = s.toString()
+                    if (originalString.contains(".")) {
+                        originalString = originalString.replace(".", "")
+                    }
+
+                    val longval: Long = originalString.toLong()
+                    val formatter = NumberFormat.getInstance(Locale("in", "ID")) as DecimalFormat
+                    formatter.applyPattern("#,###,###,###")
+                    val formattedString = formatter.format(longval)
+                    jumlahBeliChange.setText(formattedString)
+                    jumlahBeliChange.setSelection(jumlahBeliChange!!.text.length)
+                    updateTotalItem1()
+                } catch (nfe: NumberFormatException) {
+                    nfe.printStackTrace()
+                }
+                jumlahBeliChange.addTextChangedListener(this)
+            }
+        }
+    }
+
+    private fun updateTotalItem1() {
+        val x: BigInteger
+        val harga = singleItemtxBinding.tvhargajualSingleTx
+        val qty = singleItemtxBinding.tvQtyBeli
+        val total = singleItemtxBinding.totalSingleTx
+        val y = ValidNumber().removedot(harga.text.toString())
+        val z = ValidNumber().removedot(qty.text.toString())
+        //x= (editTextHrg!!.text.toString().toInt())*editTextQty!!.text.toString().toInt()
+        x = y.toBigInteger() * z.toBigInteger()
+        total.text = ValidNumber().deciformat(x.toString())
     }
 
 
