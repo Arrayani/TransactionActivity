@@ -12,6 +12,6 @@ object Constants {
     const val UNIT: String="unit"
     const val KEYNODE :String="brgId"
     const val SALESORDER:String="SalesOrder"
-
+    var UNIKIDENT:String? = null
 }
 
