@@ -1,20 +1,86 @@
 package academy.learnprogramming
 
+import academy.learnprogramming.databinding.ActivityInputItemBinding
+import academy.learnprogramming.models.Barang
+import academy.learnprogramming.utils.Constants
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.widget.RadioButton
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class InputItem : AppCompatActivity() {
+    private lateinit var binding:ActivityInputItemBinding
     private lateinit var   bottomNavigationView: BottomNavigationView
+    private lateinit var mUnit : String
+    private lateinit var unikIden : String
+    private lateinit var database : DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_input_item)
-
+        binding = ActivityInputItemBinding.inflate(layoutInflater)
+        setContentView(binding.root)//setContentView(R.layout.activity_input_item)
+        unikIden ="gLewOaXckfeBUdOq6FHbv8HJMt22"
         navigasiBawah()
+        initView()
+
+    }
+
+    private fun initView() {
+        val radioGroup = binding.radioGroup
+//        var mUnit : String
+        radioGroup.clearCheck()
+        radioGroup.setOnCheckedChangeListener{
+                group,checkedId ->
+            val rb= group.findViewById<View>(checkedId) as RadioButton
+            when(rb.id){
+                R.id.satuanButton ->
+                {/*Toast.makeText(this,"memilih satuan",Toast.LENGTH_LONG).show()*/
+                    mUnit ="Pcs"}
+
+                R.id.perboxButton ->
+                {
+                    /*Toast.makeText(this,"memilih perbox",Toast.LENGTH_LONG).show()*/
+                    mUnit ="Box"
+                }
+            }
+        }
+        binding.registerBtn.setOnClickListener {
+
+            val merk = binding.merk.text.toString().trim { it <= ' ' }
+            val namaBrg = binding.namaBrg.text.toString().trim { it <= ' ' }
+            val varian = binding.varian.text.toString().trim { it <= ' ' }
+            val hargaModal = binding.hrgmodal.text.toString().trim { it <= ' ' }
+            val hargaJual = binding.hrgjual.text.toString().trim { it <= ' ' }
+            val stok = binding.stok.text.toString().trim { it <= ' ' }
+            val perUnit = mUnit
+
+            database = FirebaseDatabase.getInstance().getReference(Constants.TABELBARANG)
+
+            val key= database.child(Constants.TABELBARANG).child(unikIden).push().key
+            val barang = Barang(merk, namaBrg, varian, hargaModal, hargaJual, stok,perUnit,key)
+
+            database.child(key!!).setValue(barang).addOnSuccessListener{
+                /*  database.child(merk).setValue(barang).addOnSuccessListener {*/
+                binding.merk.text.clear()
+                binding.namaBrg.text.clear()
+                binding.varian.text.clear()
+                binding.hrgmodal.text.clear()
+                binding.hrgjual.text.clear()
+                binding.stok.text.clear()
+                binding.radioGroup.clearCheck()
+                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+
+                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun navigasiBawah() {
